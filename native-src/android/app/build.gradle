@@ -1,0 +1,38 @@
+
+apply plugin: 'com.android.library'
+ 
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+ 
+    defaultConfig {
+        minSdkVersion 17
+        targetSdkVersion 22
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+ 
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])    
+}
+ 
+// task to delete the old jar
+task deleteOldJar(type: Delete) {
+    delete 'release/NativescriptBackgroundTaskPlugin.jar'
+}
+ 
+// task to export contents as jar
+task exportJar(type: Copy) {
+    from('build/intermediates/bundles/release/')
+    into('release')
+    include('classes.jar')
+    // name the plugin
+    rename('classes.jar','NativescriptBackgroundTaskPlugin.jar')
+}
+ 
+exportJar.dependsOn(deleteOldJar, build)

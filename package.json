@@ -1,0 +1,12 @@
+
+{
+  "name": "nativescript-background-task",
+  "main" : "background-task.js",
+  "version": "0.0.1",
+  "nativescript": {
+    "platforms": {
+      "ios": "1.4.0",
+    "android": "1.4.0"
+    }
+  }
+}

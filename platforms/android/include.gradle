@@ -1,0 +1,11 @@
+android { 
+    productFlavors {
+        "nativescript-background-task" {
+            dimension "nativescript-background-task"
+        }
+    }
+}
+
+dependencies {
+  
+}
