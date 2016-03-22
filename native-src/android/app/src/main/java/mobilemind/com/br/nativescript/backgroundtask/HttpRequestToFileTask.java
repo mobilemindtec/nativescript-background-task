@@ -14,9 +14,9 @@ import java.net.URL;
  */
 public class HttpRequestToFileTask extends AsyncTask {
 
-    public interface CompleteCallback
+    public static interface CompleteCallback
     {
-        void onComplete(Object result, Object context);
+        void onComplete(Object result);
     }
 
     private CompleteCallback callback;
@@ -62,6 +62,9 @@ public class HttpRequestToFileTask extends AsyncTask {
             fos.close();
             bis.close();
             inStream.close();
+
+            if(callback != null)
+                callback.onComplete(toFile);
 
         }catch (Exception e){
             throw new RuntimeException(e);

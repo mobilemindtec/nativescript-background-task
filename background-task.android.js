@@ -24,3 +24,19 @@ exports.start = function(args) {
   return task
 
 }
+
+
+exports.getFile = function(args){
+
+  var callback = new mobilemind.com.br.nativescript.backgroundtask.CompleteCallback({
+    onComplete: function(result){
+      if(args.doneCallback)
+        args.doneCallback()
+    }
+  })
+
+  var toFile = args.toFile
+  var url = args.url
+
+  mobilemind.com.br.nativescript.backgroundtask.HttpRequestToFileTask.doIt(callback, url, toFile);
+}
