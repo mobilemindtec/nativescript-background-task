@@ -1,6 +1,7 @@
 package mobilemind.com.br.nativescript.backgroundtask;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
@@ -14,28 +15,30 @@ import java.net.URL;
  */
 public class HttpRequestToFileTask extends AsyncTask {
 
-    public static interface CompleteCallback
-    {
-        void onComplete(Object result);
-    }
+
 
     private CompleteCallback callback;
+    private String toFile;
+    private String url;
 
 
-    public HttpRequestToFileTask(CompleteCallback callback)
+    public HttpRequestToFileTask(CompleteCallback callback, String url, String toFile)
     {
         this.callback = callback;
+        this.toFile = toFile;
+        this.url = url;
     }
 
     @Override
     protected Object doInBackground(Object[] params) {
 
         try {
-            String paramUrl= params[0].toString();
-            String toFile = params[1].toString();
-            URL url = new URL(paramUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            URL url = new URL(this.url);
 
+            Log.i("CompleteCallback", "ULR=" + this.url);
+            Log.i("CompleteCallback", "toFile=" + this.toFile);
+
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
             int statusCode = connection.getResponseCode();
 
@@ -47,9 +50,11 @@ public class HttpRequestToFileTask extends AsyncTask {
                 inStream = connection.getInputStream();
             }
 
+            Log.i("CompleteCallback", "statusCode=" + statusCode);
 
             BufferedInputStream bis = new BufferedInputStream(inStream);
-            FileOutputStream fos = new FileOutputStream(toFile);
+            FileOutputStream fos = new FileOutputStream(this.toFile);
+
 
             int BUFFER_SIZE = 23 * 1024;
             byte[] buffer = new byte[BUFFER_SIZE];
@@ -63,18 +68,31 @@ public class HttpRequestToFileTask extends AsyncTask {
             bis.close();
             inStream.close();
 
-            if(callback != null)
-                callback.onComplete(toFile);
+
 
         }catch (Exception e){
-            throw new RuntimeException(e);
+            if(callback != null){
+                callback.onError(e.getMessage());
+            }
+            Log.e("HttpRequestToFileTask", e.getMessage(), e);
         }
 
         return null;
     }
 
+    @Override
+    protected void onPostExecute(Object o) {
+        super.onPostExecute(o);
+
+        if(callback != null){
+            Log.i("CompleteCallback", "done callback");
+            callback.onComplete();
+        }else{
+            Log.i("CompleteCallback", "done null callback");
+        }
+    }
+
     public static void doIt(CompleteCallback callback, String url, String toFile){
-        Object params = new Object[]{url, toFile};
-        new HttpRequestToFileTask(callback).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, params);
+        new HttpRequestToFileTask(callback, url, toFile).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
     }
 }
