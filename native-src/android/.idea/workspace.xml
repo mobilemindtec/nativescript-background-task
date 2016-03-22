@@ -34,18 +34,18 @@
       <file leaf-file-name="HttpRequestToFileTask.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/mobilemind/com/br/nativescript/backgroundtask/HttpRequestToFileTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-10.285714">
+            <state vertical-scroll-proportion="-10.714286">
               <caret line="88" column="32" selection-start-line="88" selection-start-column="32" selection-end-line="88" selection-end-column="32" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UnzipTask.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="UnzipTask.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/mobilemind/com/br/nativescript/backgroundtask/UnzipTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-14.035714">
-              <caret line="98" column="21" selection-start-line="98" selection-start-column="12" selection-end-line="98" selection-end-column="21" />
+            <state vertical-scroll-proportion="0.5387524">
+              <caret line="91" column="37" selection-start-line="91" selection-start-column="37" selection-end-line="91" selection-end-column="37" />
               <folding />
             </state>
           </provider>
@@ -61,11 +61,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CopyFilesTask.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="CopyFilesTask.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/mobilemind/com/br/nativescript/backgroundtask/CopyFilesTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6041667">
-              <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
+            <state vertical-scroll-proportion="-10.321428">
+              <caret line="56" column="41" selection-start-line="56" selection-start-column="41" selection-end-line="56" selection-end-column="41" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -1539,11 +1539,11 @@
       <list>
         <option value="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" />
         <option value="$PROJECT_DIR$/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/java/mobilemind/com/br/nativescript/backgroundtask/UnzipTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/mobilemind/com/br/nativescript/backgroundtask/CompleteCallback.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
-        <option value="$PROJECT_DIR$/app/src/main/java/mobilemind/com/br/nativescript/backgroundtask/HttpRequestToFileTask.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/mobilemind/com/br/nativescript/backgroundtask/CopyFilesTask.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mobilemind/com/br/nativescript/backgroundtask/HttpRequestToFileTask.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/mobilemind/com/br/nativescript/backgroundtask/UnzipTask.java" />
       </list>
     </option>
   </component>
@@ -1551,10 +1551,10 @@
     <order />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="1818" />
-    <option name="y" value="204" />
-    <option name="width" value="1221" />
-    <option name="height" value="741" />
+    <option name="x" value="-1" />
+    <option name="y" value="27" />
+    <option name="width" value="1368" />
+    <option name="height" value="742" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="false">
     <OptionsSetting value="true" id="Add" />
@@ -1816,7 +1816,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1818" y="204" width="1221" height="741" extended-state="0" />
+    <frame x="-1" y="27" width="1368" height="742" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
@@ -1835,7 +1835,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.08751062" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.16163142" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -1887,14 +1887,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/mobilemind/com/br/nativescript/backgroundtask/HttpRequestToFileTask.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-10.285714">
-          <caret line="88" column="32" selection-start-line="88" selection-start-column="32" selection-end-line="88" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/mobilemind/com/br/nativescript/backgroundtask/CompleteCallback.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-2.6785715">
@@ -1903,21 +1895,29 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/mobilemind/com/br/nativescript/backgroundtask/UnzipTask.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mobilemind/com/br/nativescript/backgroundtask/CopyFilesTask.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-14.035714">
-          <caret line="98" column="21" selection-start-line="98" selection-start-column="12" selection-end-line="98" selection-end-column="21" />
+        <state vertical-scroll-proportion="-10.321428">
+          <caret line="56" column="41" selection-start-line="56" selection-start-column="41" selection-end-line="56" selection-end-column="41" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mobilemind/com/br/nativescript/backgroundtask/HttpRequestToFileTask.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-10.714286">
+          <caret line="88" column="32" selection-start-line="88" selection-start-column="32" selection-end-line="88" selection-end-column="32" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/mobilemind/com/br/nativescript/backgroundtask/CopyFilesTask.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/mobilemind/com/br/nativescript/backgroundtask/UnzipTask.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6041667">
-          <caret line="34" column="0" selection-start-line="34" selection-start-column="0" selection-end-line="34" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state vertical-scroll-proportion="0.5387524">
+          <caret line="91" column="37" selection-start-line="91" selection-start-column="37" selection-end-line="91" selection-end-column="37" />
+          <folding />
         </state>
       </provider>
     </entry>

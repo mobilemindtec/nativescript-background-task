@@ -18,6 +18,7 @@ import java.io.IOException;
         private CompleteCallback callback;
         private File toFile;
         private File fromFile;
+        private boolean error;
 
 
         public CopyFilesTask(CompleteCallback callback,String fromFile, String toFile)
@@ -42,6 +43,7 @@ import java.io.IOException;
                 if(callback != null){
                     callback.onError(e.getMessage());
                 }
+                error = true;
                 Log.e("CopyFileTask", e.getMessage(), e);
             }
 
@@ -52,7 +54,7 @@ import java.io.IOException;
         protected void onPostExecute(Object o) {
             super.onPostExecute(o);
 
-            if(callback != null){
+            if(callback != null && !error){
                 Log.i("CopyFileTask", "done callback");
                 callback.onComplete();
             }else{

@@ -6,7 +6,7 @@
 exports.getFile = function(args){
 
   var callback = new mobilemind.com.br.nativescript.backgroundtask.CompleteCallback({
-    onComplete: function(result){
+    onComplete: function(){
       if(args.doneCallback)
         args.doneCallback()
     },
@@ -25,7 +25,7 @@ exports.getFile = function(args){
 exports.unzip = function(args){
 
   var callback = new mobilemind.com.br.nativescript.backgroundtask.CompleteCallback({
-    onComplete: function(result){
+    onComplete: function(){
       if(args.doneCallback)
         args.doneCallback()
     },
@@ -44,7 +44,7 @@ exports.unzip = function(args){
 exports.copyFiles = function(args){
 
   var callback = new mobilemind.com.br.nativescript.backgroundtask.CompleteCallback({
-    onComplete: function(result){
+    onComplete: function(){
       if(args.doneCallback)
         args.doneCallback()
     },

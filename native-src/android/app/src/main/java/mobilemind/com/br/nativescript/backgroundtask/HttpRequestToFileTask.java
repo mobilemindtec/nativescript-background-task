@@ -20,6 +20,7 @@ public class HttpRequestToFileTask extends AsyncTask {
     private CompleteCallback callback;
     private String toFile;
     private String url;
+    private boolean error;
 
 
     public HttpRequestToFileTask(CompleteCallback callback, String url, String toFile)
@@ -74,6 +75,7 @@ public class HttpRequestToFileTask extends AsyncTask {
             if(callback != null){
                 callback.onError(e.getMessage());
             }
+            error = true;
             Log.e("HttpRequestToFileTask", e.getMessage(), e);
         }
 
@@ -84,7 +86,7 @@ public class HttpRequestToFileTask extends AsyncTask {
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
 
-        if(callback != null){
+        if(callback != null && !error){
             Log.i("CompleteCallback", "done callback");
             callback.onComplete();
         }else{

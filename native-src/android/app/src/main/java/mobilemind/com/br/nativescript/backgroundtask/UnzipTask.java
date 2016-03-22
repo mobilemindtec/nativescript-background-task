@@ -22,6 +22,7 @@ public class UnzipTask extends AsyncTask {
     private CompleteCallback callback;
     private String toFile;
     private String fromFile;
+    private boolean error;
 
 
     public UnzipTask(CompleteCallback callback,String fromFile, String toFile)
@@ -77,6 +78,7 @@ public class UnzipTask extends AsyncTask {
             if(callback != null){
                 callback.onError(e.getMessage());
             }
+            error = true;
             Log.e("UnzipTask", e.getMessage(), e);
         }
 
@@ -87,7 +89,7 @@ public class UnzipTask extends AsyncTask {
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
 
-        if(callback != null){
+        if(callback != null && !error){
             Log.i("UnzipTask", "done callback");
             callback.onComplete();
         }else{
