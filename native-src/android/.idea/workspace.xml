@@ -34,8 +34,8 @@
       <file leaf-file-name="HttpRequestToFileTask.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/mobilemind/com/br/nativescript/backgroundtask/HttpRequestToFileTask.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.25921658">
-              <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.9158986">
+              <caret line="78" column="5" selection-start-line="78" selection-start-column="5" selection-end-line="79" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -1845,8 +1845,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/mobilemind/com/br/nativescript/backgroundtask/HttpRequestToFileTask.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.25921658">
-          <caret line="40" column="0" selection-start-line="40" selection-start-column="0" selection-end-line="40" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.9158986">
+          <caret line="78" column="5" selection-start-line="78" selection-start-column="5" selection-end-line="79" selection-end-column="1" />
           <folding />
         </state>
       </provider>
