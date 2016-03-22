@@ -15,13 +15,6 @@ import java.io.IOException;
      */
     public class CopyFilesTask extends AsyncTask {
 
-        public static interface CompleteCallback
-        {
-            void onComplete();
-
-            void onError(String message);
-        }
-
         private CompleteCallback callback;
         private File toFile;
         private File fromFile;
@@ -29,6 +22,9 @@ import java.io.IOException;
 
         public CopyFilesTask(CompleteCallback callback,String fromFile, String toFile)
         {
+            Log.i("CopyFilesTask", "toFile=" + toFile);
+            Log.i("CopyFilesTask", "fromFile=" + fromFile);
+
             this.callback = callback;
             this.toFile = new File(toFile);
             this.fromFile = new File(fromFile);
