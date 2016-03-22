@@ -31,7 +31,7 @@ exports.getFile = function(args){
   var callback = new mobilemind.com.br.nativescript.backgroundtask.CompleteCallback({
     onComplete: function(result){
       if(args.doneCallback)
-        args.doneCallback()
+        args.doneCallback(result)
     }
   })
 
