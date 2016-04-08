@@ -1,0 +1,4 @@
+module NativeScriptBackgroundTask {
+  umbrella "../../../../../platforms/ios/Pods/Headers/Public"
+  export *
+}
