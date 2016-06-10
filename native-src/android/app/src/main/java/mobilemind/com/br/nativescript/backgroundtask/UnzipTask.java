@@ -54,12 +54,12 @@ public class UnzipTask extends AsyncTask {
                 // Need to create directories if not exists, or
                 // it will generate an Exception...
                 if (ze.isDirectory()) {
-                    File fmd = new File(toFile + filename);
+                    File fmd = new File(this.toFile, filename);
                     fmd.mkdirs();
                     continue;
                 }
 
-                FileOutputStream fout = new FileOutputStream(toFile + filename);
+                FileOutputStream fout = new FileOutputStream(new File(this.toFile, filename));
 
                 // cteni zipu a zapis
                 while ((count = zis.read(buffer)) != -1)
