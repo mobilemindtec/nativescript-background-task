@@ -70,7 +70,7 @@ import java.io.IOException;
         public void copyDirectoryOneLocationToAnotherLocation(File sourceLocation, File targetLocation) throws IOException {
 
 
-                Log.i("CopyFileTask", "copy " + sourceLocation + " to " + targetLocation);
+                //Log.i("CopyFileTask", "copy " + sourceLocation + " to " + targetLocation);
 
                 if (sourceLocation.isDirectory()) {
 

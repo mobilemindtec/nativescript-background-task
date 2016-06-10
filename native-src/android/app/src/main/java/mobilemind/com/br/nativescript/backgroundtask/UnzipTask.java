@@ -54,7 +54,7 @@ public class UnzipTask extends AsyncTask {
                 // zapis do souboru
                 filename = ze.getName();
 
-                Log.i("UnzipTask", "zip file name " + filename);
+                //Log.i("UnzipTask", "zip file name " + filename);
 
                 // Need to create directories if not exists, or
                 // it will generate an Exception...
