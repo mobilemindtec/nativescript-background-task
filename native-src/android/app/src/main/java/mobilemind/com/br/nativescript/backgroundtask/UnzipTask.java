@@ -22,7 +22,7 @@ public class UnzipTask extends AsyncTask {
     private CompleteCallback callback;
     private String toFile;
     private String fromFile;
-    private boolean error;
+    private boolean error;    
 
 
     public UnzipTask(CompleteCallback callback,String fromFile, String toFile)
@@ -30,6 +30,9 @@ public class UnzipTask extends AsyncTask {
         this.callback = callback;
         this.toFile = toFile;
         this.fromFile = fromFile;
+
+        if(!this.toFile.endsWith("/"))
+            this.toFile += "/";
     }
 
     @Override
@@ -51,15 +54,18 @@ public class UnzipTask extends AsyncTask {
                 // zapis do souboru
                 filename = ze.getName();
 
+                Log.i("UnzipTask", "zip file name " + filename);
+
                 // Need to create directories if not exists, or
                 // it will generate an Exception...
                 if (ze.isDirectory()) {
-                    File fmd = new File(this.toFile, filename);
+                    File fmd = new File(this.toFile + filename);
                     fmd.mkdirs();
                     continue;
                 }
 
-                FileOutputStream fout = new FileOutputStream(new File(this.toFile, filename));
+                File file = new File(this.toFile + filename);
+                FileOutputStream fout = new FileOutputStream(file);
 
                 // cteni zipu a zapis
                 while ((count = zis.read(buffer)) != -1)
