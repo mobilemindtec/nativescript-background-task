@@ -5,8 +5,8 @@
   "version": "0.0.1",
   "nativescript": {
     "platforms": {
-      "ios": "1.4.0",
-    "android": "1.4.0"
+      "ios": "3.3.0",
+    	"android": "2.3.0"
     }
   }
 }
