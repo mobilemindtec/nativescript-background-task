@@ -1,5 +1,5 @@
 #!/bin/bash
 
-gradle exportJar
+./gradlew exportJar
 
 cp app/release/NativescriptBackgroundTaskPlugin.jar ../../platforms/android/libs
