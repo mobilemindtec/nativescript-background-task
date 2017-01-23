@@ -3,6 +3,7 @@ package mobilemind.com.br.nativescript.backgroundtask;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.util.Log;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -42,11 +43,14 @@ public class LargeFileManagerTask extends AsyncTask {
                     format = Bitmap.CompressFormat.PNG;
                 }
 
+                Log.i("LargeFileManagerTask", file.filePath);
+
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 file.bitmap.compress(format, file.quality, stream);
                 File imageFile = new File(file.filePath);
 
                 if (imageFile.exists()) {
+                    Log.i("LargeFileManagerTask", "delete file " + file.filePath);
                     imageFile.delete();
                 }
 
@@ -58,6 +62,8 @@ public class LargeFileManagerTask extends AsyncTask {
                 Runtime.getRuntime().gc();
                 System.gc();
                 Thread.sleep(1000);
+
+                Log.i("LargeFileManagerTask", "file saved " + file.filePath);
             }
 
         }catch (Exception e){
