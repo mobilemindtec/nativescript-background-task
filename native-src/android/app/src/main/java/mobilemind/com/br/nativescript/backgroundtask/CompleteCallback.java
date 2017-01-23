@@ -5,7 +5,7 @@ package mobilemind.com.br.nativescript.backgroundtask;
  */
 public interface CompleteCallback {
 
-    void onComplete();
+    void onComplete(Object result);
 
     void onError(String message);
 }

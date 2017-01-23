@@ -36,8 +36,8 @@ public class HttpRequestToFileTask extends AsyncTask {
         try {
             URL url = new URL(this.url);
 
-            Log.i("CompleteCallback", "ULR=" + this.url);
-            Log.i("CompleteCallback", "toFile=" + this.toFile);
+            Log.i("HttpRequestToFileTask", "ULR=" + this.url);
+            Log.i("HttpRequestToFileTask", "toFile=" + this.toFile);
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
@@ -51,7 +51,7 @@ public class HttpRequestToFileTask extends AsyncTask {
                 inStream = connection.getInputStream();
             }
 
-            Log.i("CompleteCallback", "statusCode=" + statusCode);
+            Log.i("HttpRequestToFileTask", "statusCode=" + statusCode);
 
             BufferedInputStream bis = new BufferedInputStream(inStream);
             FileOutputStream fos = new FileOutputStream(this.toFile);
@@ -87,10 +87,10 @@ public class HttpRequestToFileTask extends AsyncTask {
         super.onPostExecute(o);
 
         if(callback != null && !error){
-            Log.i("CompleteCallback", "done callback");
-            callback.onComplete();
+            Log.i("HttpRequestToFileTask", "done callback");
+            callback.onComplete(o);
         }else{
-            Log.i("CompleteCallback", "done null callback");
+            Log.i("HttpRequestToFileTask", "done null callback");
         }
     }
 

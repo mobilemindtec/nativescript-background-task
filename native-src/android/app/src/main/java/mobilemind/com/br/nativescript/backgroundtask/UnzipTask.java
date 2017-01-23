@@ -97,7 +97,7 @@ public class UnzipTask extends AsyncTask {
 
         if(callback != null && !error){
             Log.i("UnzipTask", "done callback");
-            callback.onComplete();
+            callback.onComplete(o);
         }else{
             Log.i("UnzipTask", "done null callback");
         }
