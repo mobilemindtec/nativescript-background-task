@@ -2,4 +2,4 @@
 
 ./gradlew exportJar
 
-cp app/release/NativescriptBackgroundTaskPlugin.jar ../../platforms/android/libs
+cp app/release/MobileMindNSTaskPlugin.jar ../../platforms/android/libs

@@ -1,61 +1,48 @@
 
 
+/*
+  args = {
+    
+    url:
+    toFile: - file path to save
 
+  }
+*/
 exports.getFile = function(args){
-
-  var callback = new mobilemind.com.br.nativescript.backgroundtask.CompleteCallback({
-    onComplete: function(result){
-      if(args.doneCallback)
-        args.doneCallback()
-    },
-    onError: function(e){
-      if(args.errorCallback)
-        args.errorCallback(e)
-    }
-  })
-
+  var callback = createCallback(args)
   var toFile = args.toFile
   var url = args.url
-
-  mobilemind.com.br.nativescript.backgroundtask.HttpRequestToFileTask.doIt(callback, url, toFile);
+  br.com.mobilemind.ns.task.HttpRequestToFileTask.doIt(callback, url, toFile);
 }
 
+/*
+  
+  args = {
+    fromFile:
+    toFile: 
+  }
+
+*/
 exports.unzip = function(args){
-
-  var callback = new mobilemind.com.br.nativescript.backgroundtask.CompleteCallback({
-    onComplete: function(result){
-      if(args.doneCallback)
-        args.doneCallback()
-    },
-    onError: function(e){
-      if(args.errorCallback)
-        args.errorCallback(e)
-    }
-  })
-
+  var callback = createCallback(args)
   var toFile = args.toFile
   var fromFile = args.fromFile
-
-  mobilemind.com.br.nativescript.backgroundtask.UnzipTask.doIt(callback, fromFile, toFile);
+  br.com.mobilemind.ns.task.UnzipTask.doIt(callback, fromFile, toFile);
 }
 
+/*
+  
+  args = {
+    fromFile: 
+    toFile: 
+  }
+
+*/
 exports.copyFiles = function(args){
-
-  var callback = new mobilemind.com.br.nativescript.backgroundtask.CompleteCallback({
-    onComplete: function(result){
-      if(args.doneCallback)
-        args.doneCallback()
-    },
-    onError: function(e){
-      if(args.errorCallback)
-        args.errorCallback(e)
-    }
-  })
-
+  var callback = createCallback(args)
   var toFile = args.toFile
   var fromFile = args.fromFile
-
-  mobilemind.com.br.nativescript.backgroundtask.CopyFilesTask.doIt(callback, fromFile, toFile);
+  br.com.mobilemind.ns.task.CopyFilesTask.doIt(callback, fromFile, toFile);
 }
 
 /*
@@ -63,58 +50,118 @@ exports.copyFiles = function(args){
     files: [
       { 
         bitmap: 
-        filePath:
+        fileDst:
+        fileSrc: 
         quality: 
       }
     ]
   }
 
 */
-exports.saveLargeImages = function(args){
+exports.saveLargeFiles = function(args){
 
-  var callback = new mobilemind.com.br.nativescript.backgroundtask.CompleteCallback({
-    onComplete: function(result){
-      if(args.doneCallback)
-        args.doneCallback()
-    },
-    onError: function(e){
-      if(args.errorCallback)
-        args.errorCallback(e)
-    }
-  })
+  var callback = createCallback(args)
   
-  var largeFiles = []
+  try{
 
-  for(var i in args.files) {
+    if(!args.files || args.files.length == 0){
+      if(args.doneCallback)
+        args.doneCallback()      
+    }
 
-    var item = args.files[i]
-    var large = new mobilemind.com.br.nativescript.backgroundtask.LargeFileBitmap()
-    large.bitmap = item.bitmal
-    large.filePath = item.filePath
-    large.quality = item.quality
+    var largeFiles = []
 
-    largeFiles.push(large)
+    for(var i in args.files) {
 
-  }  
+      var item = args.files[i]
+      var large = new br.com.mobilemind.ns.task.LargeFilePersisterTask.LargeFile()
+      large.bitmap = item.bitmap
+      large.fileDst = item.fileDst
+      large.fileSrc = item.fileSrc
+      large.quality = item.quality
 
-  mobilemind.com.br.nativescript.backgroundtask.LargeFileManagerTask.doIt(callback, largeFiles);
+      largeFiles.push(large)
+
+    }  
+    console.log("largeFiles largeFiles.length=" + largeFiles.length)
+    br.com.mobilemind.ns.task.LargeFilePersisterTask.doIt(callback, largeFiles);    
+  }catch(error){
+    console.log("largeFiles error=" + error)
+    if(args.errorCallback)
+      args.errorCallback(error)
+  }
 
 }
 
 /*
   
-  args = {
-    filePath: 
-    fileJsonKey:
-    data: - json data 
+  args = {        
     url: 
+    items: [
+      {
+        jsonKey:
+        fileSrc: 
+        data: - json data
+      }
+    ]
+    headers: [
+      {}
+    ]
   }
 
 */
 
-exports.postFile = function(args){
+exports.postFiles = function(args){
 
-  var callback = new mobilemind.com.br.nativescript.backgroundtask.CompleteCallback({
+  var callback = createCallback(args)
+
+  try{    
+    
+    var httpPostDataList = []
+
+    for(var i in args.items){
+      var jsonItem = args.items[i]
+      var fileSrc = jsonItem.fileSrc
+      var jsonKey = jsonItem.jsonKey
+      var jsonData = jsonItem.data
+      
+      var httpPostData = new br.com.mobilemind.ns.task.HttpPostFileTask.HttpPostData(fileSrc, jsonKey)
+
+      for(var key in jsonData){
+        httpPostData.addJsonValue(key, jsonData[key])
+        console.log("## add json data=" + key + "=" + jsonData[key])
+      }
+
+      httpPostDataList.push(httpPostData)
+      
+    }
+
+    var httpPostFileTask = new br.com.mobilemind.ns.task.HttpPostFileTask(args.url, httpPostDataList, callback)
+
+    if(args.headers){
+      for(var i in args.headers){
+        var header = args.headers[i]
+        for(var key in header){
+          httpPostFileTask.addHeader(key, header[key])
+          console.log("## add header=" + key + "=" + header[key])
+        }
+      }
+    }
+
+    console.log("## httpPostFileTask.executeOnExecutor")
+    httpPostFileTask.executeOnExecutor(android.os.AsyncTask.THREAD_POOL_EXECUTOR, null)
+  }catch(error){
+    console.log("## postFile error=" + error)
+
+    if(args.errorCallback)
+      args.errorCallback(error)
+
+  }
+}
+
+function createCallback(args){
+
+  var callback = new br.com.mobilemind.ns.task.CompleteCallback({
     onComplete: function(result){
       if(args.doneCallback)
         args.doneCallback(result)
@@ -123,32 +170,8 @@ exports.postFile = function(args){
       if(args.errorCallback)
         args.errorCallback(e)
     }
-  })
+  })  
 
-  var filePath = args.filePath
-  var fileJsonKey = args.fileJsonKey
-  var httpPostData = new mobilemind.com.br.nativescript.backgroundtask.HttpPostFileTask.HttpPostData(filePath, fileJsonKey)
-  
-  console.log("## filePath=" + filePath)
-  console.log("## fileJsonKey=" + fileJsonKey)
+  return callback
 
-  for(var key in args.data){
-    httpPostData.addValue(key, args.data[key])
-    console.log("## add json data=" + key + "=" + args.data[key])
-  }
-
-  var httpPostFileTask = new mobilemind.com.br.nativescript.backgroundtask.HttpPostFileTask(args.url, httpPostData, callback)
-
-  if(args.headers){
-    for(var i in args.headers){
-      var header = rgs.headers[i]
-      for(var key in header){
-        httpPostFileTask.addHeader(key, header[key])
-        console.log("## add header=" + key + "=" + header[key])
-      }
-    }
-  }
-
-  console.log("## httpPostFileTask.executeOnExecutor")
-  httpPostFileTask.executeOnExecutor(android.os.AsyncTask.THREAD_POOL_EXECUTOR, null)
 }
