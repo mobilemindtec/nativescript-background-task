@@ -83,10 +83,10 @@ exports.saveLargeFiles = function(args){
       largeFiles.push(large)
 
     }  
-    console.log("largeFiles largeFiles.length=" + largeFiles.length)
+    
     br.com.mobilemind.ns.task.LargeFilePersisterTask.doIt(callback, largeFiles);    
   }catch(error){
-    console.log("largeFiles error=" + error)
+    console.log("BackgroundTask.saveLargeFiles error=" + error)
     if(args.errorCallback)
       args.errorCallback(error)
   }
@@ -117,7 +117,7 @@ exports.postFiles = function(args){
 
   try{    
     
-    var httpPostDataList = []
+    var httpPostFileTask = new br.com.mobilemind.ns.task.HttpPostFileTask(args.url, callback)
 
     for(var i in args.items){
       var jsonItem = args.items[i]
@@ -129,29 +129,24 @@ exports.postFiles = function(args){
 
       for(var key in jsonData){
         httpPostData.addJsonValue(key, jsonData[key])
-        console.log("## add json data=" + key + "=" + jsonData[key])
       }
 
-      httpPostDataList.push(httpPostData)
+      httpPostFileTask.addData(httpPostData)
       
     }
-
-    var httpPostFileTask = new br.com.mobilemind.ns.task.HttpPostFileTask(args.url, httpPostDataList, callback)
 
     if(args.headers){
       for(var i in args.headers){
         var header = args.headers[i]
         for(var key in header){
           httpPostFileTask.addHeader(key, header[key])
-          console.log("## add header=" + key + "=" + header[key])
         }
       }
     }
 
-    console.log("## httpPostFileTask.executeOnExecutor")
     httpPostFileTask.executeOnExecutor(android.os.AsyncTask.THREAD_POOL_EXECUTOR, null)
   }catch(error){
-    console.log("## postFile error=" + error)
+    console.log("BackgroundTask.postFiles error=" + error)
 
     if(args.errorCallback)
       args.errorCallback(error)
