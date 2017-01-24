@@ -126,7 +126,8 @@ exports.postFiles = function(args){
       var jsonData = jsonItem.data
       
       var httpPostData = new br.com.mobilemind.ns.task.HttpPostFileTask.HttpPostData(fileSrc, jsonKey)
-
+      httpPostData.identifier = jsonItem.identifier
+      
       for(var key in jsonData){
         httpPostData.addJsonValue(key, jsonData[key])
       }
