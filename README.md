@@ -10,7 +10,35 @@ Run background task
 * save large file
 * post large file base64 gzip
 
-### Using
+## Configs
+### Android
+Add at app.gradle
+
+```
+allprojects {
+    repositories {
+        jcenter()
+        mavenCentral()
+        maven {
+            url "http://nexus.mobilemind.com.br/nexus/content/repositories/mobile-mind"
+        }
+        maven {
+            url "http://nexus.mobilemind.com.br/nexus/content/repositories/mobile-mind-droid"
+        }
+    }
+}
+
+dependencies{
+  compile('br.com.mobilemind.api:mobilemind-droid-util:1.4', {
+      exclude group: 'com.google.android', module: 'android'
+      exclude group: 'com.google.android', module: 'support-v4'
+      exclude group: 'br.com.mobilemind.api', module: 'mobilemind-utils'
+  })
+  compile 'br.com.mobilemind.api:mobilemind-utils:1.3'
+}
+
+```
+## Using
 
 ```
 
