@@ -130,8 +130,19 @@ BackgroundTask.saveLargeFiles({
 // sql batch
 var items = []
 
+// insert / update / delete
 items.push({
 	query: 'insert into foo name values(?)',
+	args: ['john']
+})
+
+// to insert or update
+items.push({
+	insertQuery: 'insert into foo name values(?)',
+	updateQuery: 'update foo set name = ? where id = ?',
+	tableName: 'foo',
+	updateKey: 'id',
+	updateKeyValue: '1',
 	args: ['john']
 })
 
@@ -145,5 +156,7 @@ BackgroundTask.dbBatchInsert({
 		// error
 	}
 })
+
+
 
 ```
