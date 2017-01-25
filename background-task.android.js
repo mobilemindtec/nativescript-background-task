@@ -1,4 +1,4 @@
-
+var application = require('application')
 
 /*
   args = {
@@ -151,8 +151,32 @@ exports.postFiles = function(args){
 
     if(args.errorCallback)
       args.errorCallback(error)
-
   }
+}
+
+exports.dbBatchInsert = function(args){
+  var callback = createCallback(args)
+
+  try{
+    var context = application.android.context
+    var dbName = args.dbName
+
+    var dbInsertBatchTask = new br.com.mobilemind.ns.task.DbInsertBatchTask(context, dbName, callback)
+
+    for(var i in args.items){
+      var item = args.items[i]
+      dbInsertBatchTask.addQuery(item.query, item.args)    
+    }
+
+    dbInsertBatchTask.executeOnExecutor(android.os.AsyncTask.THREAD_POOL_EXECUTOR, null)
+    
+  }catch(error){
+    console.log("BackgroundTask.dbBatchInsert error=" + error)
+
+    if(args.errorCallback)
+      args.errorCallback(error)    
+  }
+
 }
 
 function createCallback(args){
@@ -171,3 +195,4 @@ function createCallback(args){
   return callback
 
 }
+
