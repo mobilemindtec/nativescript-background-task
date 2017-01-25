@@ -154,6 +154,37 @@ exports.postFiles = function(args){
   }
 }
 
+/*
+
+  insert/update/delete
+
+  args = {
+    dbName
+    items: [
+      {
+        query:
+        args
+      }
+    ]
+  }
+
+  insert or update
+
+  args = {
+    dbName
+    items: [
+      {
+        insertQuery:
+        updateQuery:
+        tableName: 
+        updateKey:  // where column name
+        updateKeyValue: // where column value
+        params: 
+      }
+    ]
+  }  
+
+*/
 exports.dbBatchInsert = function(args){
   var callback = createCallback(args)
 
@@ -165,11 +196,14 @@ exports.dbBatchInsert = function(args){
 
     for(var i in args.items){
       var item = args.items[i]
-      dbInsertBatchTask.addQuery(item.query, item.args)    
+      if(item.query)
+        dbInsertBatchTask.addQuery(item.query, item.args)    
+      else
+        dbInsertBatchTask.addInsertOrUpdateQuery(item.insertQuery, item.updateQuery, item.tableName, item.updateKey + "", item.updateKeyValue, item.args)
     }
 
     dbInsertBatchTask.executeOnExecutor(android.os.AsyncTask.THREAD_POOL_EXECUTOR, null)
-    
+
   }catch(error){
     console.log("BackgroundTask.dbBatchInsert error=" + error)
 
