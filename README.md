@@ -9,6 +9,7 @@ Run background task
 * move many files
 * save large file
 * post large file base64 gzip
+* run sql batch (insert, update, delete)
 
 ## Configs
 ### Android
@@ -125,5 +126,37 @@ BackgroundTask.saveLargeFiles({
     	// error
     }
 })
+
+// sql batch
+var items = []
+
+// insert / update / delete
+items.push({
+	query: 'insert into foo name values(?)',
+	args: ['john']
+})
+
+// to insert or update
+items.push({
+	insertQuery: 'insert into foo name values(?)',
+	updateQuery: 'update foo set name = ? where id = ?',
+	tableName: 'foo',
+	updateKey: 'id',
+	updateKeyValue: '1',
+	args: ['john']
+})
+
+BackgroundTask.dbBatchInsert({
+	dbName: dbName,
+	items: items,
+	doneCallback: function(){
+		// done
+	},
+	errorCallback: function(error){
+		// error
+	}
+})
+
+
 
 ```
