@@ -48,11 +48,11 @@ var BackgroundTask = require("nativescript-background-task")
 // unzip file
 BackgroundTask.unzip({
 	fromFile: zipFile,
-	toFile: extractPath,
+	toFile: extractPath,	
 	doneCallback: function(){
 		// done			
 	},
-	errorCallback: function(){
+	errorCallback: function(error){
 		// error			
 	},
 })
@@ -61,7 +61,8 @@ BackgroundTask.unzip({
 BackgroundTask.getFile({
 	url: 'http://www.mobilemind.com.br/makeyourself/coollife/images-2.1.zip',
 	toFile: destinationFile,
-	doneCallback: function(){
+	identifier: 1,
+	doneCallback: function(identifier){
 		// done
 	},
 	errorCallback: function(message){
