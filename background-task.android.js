@@ -12,7 +12,8 @@ exports.getFile = function(args){
   var callback = createCallback(args)
   var toFile = args.toFile
   var url = args.url
-  br.com.mobilemind.ns.task.HttpRequestToFileTask.doIt(callback, url, toFile);
+  var identifier = args.identifier + ""
+  br.com.mobilemind.ns.task.HttpRequestToFileTask.doIt(callback, url, toFile, identifier);
 }
 
 /*
