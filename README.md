@@ -65,7 +65,9 @@ BackgroundTask.getFile({
 	doneCallback: function(identifier){
 		// done
 	},
-	errorCallback: function(message){
+	errorCallback: function(error){
+		var identifier = error[0]
+		var message = error[1]
 		// error
 	},
 })
