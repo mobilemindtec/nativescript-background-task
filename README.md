@@ -29,6 +29,9 @@ allprojects {
     }
 }
 
+android {
+	useLibrary 'org.apache.http.legacy'
+}
 dependencies{
   compile('br.com.mobilemind.api:mobilemind-droid-util:1.4', {
       exclude group: 'com.google.android', module: 'android'
