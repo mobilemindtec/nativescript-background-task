@@ -29,6 +29,9 @@ allprojects {
     }
 }
 
+android {
+	useLibrary 'org.apache.http.legacy'
+}
 dependencies{
   compile('br.com.mobilemind.api:mobilemind-droid-util:1.4', {
       exclude group: 'com.google.android', module: 'android'
@@ -106,6 +109,7 @@ BackgroundTask.saveLargeFiles({
 
   BackgroundTask.postFiles({
     url: apiUrl, // api url
+    formData: false // use form data to post. default is json
     items: [{    	
       fileSrc: fileSrc, // file origin path
       jsonKey: jsonKey, // internally post data[jsonKey] = file content
@@ -122,6 +126,10 @@ BackgroundTask.saveLargeFiles({
 		var postData = dataPostList[i]
 		var data = JSON.parse(postData.result)
 		var identifier = postData.identifier
+		// get response headers names postData.getHeaderNames()
+		// get response header value postData.getHeaderValue("name")
+		// get response headers postData.getHeaders()
+		// get response object postData.response
 		// process result
 	}
     },
@@ -160,6 +168,27 @@ BackgroundTask.dbBatchInsert({
 	}
 })
 
+// split large files
 
+BackgroundTask.splitFiles({
+	files: [{
+		fileSrc: "/file/to/split.mp4"
+		filePartPath: "/path/to/save/part/"
+		fileParthName: "FileName" 
+		fileParteSufix: "part" // create FileName.part
+		filePartMaxSize: 3 // 3MB
+	}],
+	doneCallback: function(data){
+
+		var files = []
+		for(i in data){
+			for(filePath in data[i].fileParts)
+				files.push(it) // get name of parts
+		}			
+	},
+	errorCallback: function(error){
+		// error
+	}
+})
 
 ```
