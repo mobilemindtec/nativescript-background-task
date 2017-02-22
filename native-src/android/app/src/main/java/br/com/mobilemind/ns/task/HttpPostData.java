@@ -37,7 +37,7 @@ public class HttpPostData {
         return this.responseHeaders.get(name);
     }
 
-    public Map<String, String> getHeaders(String name) {
+    public Map<String, String> getHeaders() {
         return this.responseHeaders;
     }
 }
