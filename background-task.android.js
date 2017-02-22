@@ -95,6 +95,59 @@ exports.saveLargeFiles = function(args){
 }
 
 /*
+  args = {
+    files: [
+      { 
+        fileSrc: 
+        filePartPath:
+        fileParthName: 
+        fileParteSufix: default is "part"
+        filePartMaxSize: default is 5 (5MB)
+      }
+    ]
+  }
+
+*/
+
+exports.splitFiles = function(args){
+
+  var callback = createCallback(args)
+  
+  try{
+
+    if(!args.files || args.files.length == 0){
+      if(args.doneCallback)
+        args.doneCallback()      
+    }
+
+    var splitFiles = []
+
+    for(var i in args.files) {
+
+      var item = args.files[i]
+      var splitFile = new br.com.mobilemind.ns.task.SplitFilesTask.SplitFile()
+
+      splitFile.fileSrc = item.fileSrc
+      splitFile.filePartPath = item.filePartPath
+      splitFile.filePartMaxSize = item.filePartMaxSize || splitFile.filePartMaxSize
+      splitFile.fileParthName = item.fileParthName
+      splitFile.fileParteSufix = item.fileParteSufix || splitFile.fileParteSufix
+
+      splitFiles.push(splitFile)
+
+    }  
+    
+    br.com.mobilemind.ns.task.SplitFilesTask.doIt(callback, splitFiles);    
+    
+  }catch(error){
+    console.log("BackgroundTask.splitFiles error=" + error)
+    if(args.errorCallback)
+      args.errorCallback(error)
+  }
+
+}
+
+/*
   
   args = {        
     url: 
@@ -118,7 +171,13 @@ exports.postFiles = function(args){
 
   try{    
     
-    var httpPostFileTask = new br.com.mobilemind.ns.task.HttpPostFileTask(args.url, callback)
+    var httpPostFileTask
+
+    if(args.formData){      
+      httpPostFileTask = new br.com.mobilemind.ns.task.HttpPostFileFormDataTask(args.url, callback)
+    } else {
+      httpPostFileTask = new br.com.mobilemind.ns.task.HttpPostFileTask(args.url, callback)
+    }
 
     for(var i in args.items){
       var jsonItem = args.items[i]
@@ -126,7 +185,7 @@ exports.postFiles = function(args){
       var jsonKey = jsonItem.jsonKey
       var jsonData = jsonItem.data
       
-      var httpPostData = new br.com.mobilemind.ns.task.HttpPostFileTask.HttpPostData(fileSrc, jsonKey)
+      var httpPostData = new br.com.mobilemind.ns.task.HttpPostData(fileSrc, jsonKey)
       httpPostData.identifier = jsonItem.identifier
       
       for(var key in jsonData){
@@ -136,6 +195,9 @@ exports.postFiles = function(args){
       httpPostFileTask.addData(httpPostData)
       
     }
+
+    if(args.gzip == false)
+      httpPostFileTask.setUseGzip(false)
 
     if(args.headers){
       for(var i in args.headers){
@@ -154,6 +216,7 @@ exports.postFiles = function(args){
       args.errorCallback(error)
   }
 }
+
 
 /*
 
