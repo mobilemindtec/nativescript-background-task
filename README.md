@@ -8,7 +8,8 @@ Run background task
 * download big files
 * move many files
 * save large file
-* post large file base64 gzip
+* post large file base64 gzip json or form data (base64 gzip)
+* split large file
 * run sql batch (insert, update, delete)
 
 ## Configs
@@ -109,7 +110,8 @@ BackgroundTask.saveLargeFiles({
 
   BackgroundTask.postFiles({
     url: apiUrl, // api url
-    formData: false // use form data to post. default is json
+    formData: false, // use form data to post. default is json
+    gzip: true, // use base64 gzip
     items: [{    	
       fileSrc: fileSrc, // file origin path
       jsonKey: jsonKey, // internally post data[jsonKey] = file content
