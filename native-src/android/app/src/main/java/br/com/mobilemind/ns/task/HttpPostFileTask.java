@@ -15,7 +15,7 @@ import java.util.Map;
 
 import br.com.mobilemind.api.droidutil.rest.WsExecutor;
 import br.com.mobilemind.api.security.key.Base64;
-
+import br.com.mobilemind.api.droidutil.rest.RestException;
 /**
  * Created by ricardo on 1/23/17.
  */
@@ -143,17 +143,34 @@ public class HttpPostFileTask extends AsyncTask {
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
 
-        if(o instanceof  Exception){
-            if (callback != null) {
-                callback.onError(((Exception) o).getMessage());
+        try{
+            if(o instanceof RestException){
+                JSONObject json = new JSONObject();
+                json.put("statusCode", ((RestException)o).getHttpSatatus());
+                json.put("content", ((RestException)o).getContent());
+                json.put("message", ((RestException)o).getMessage());
+                Log.i("HttpPostFileTask", "done with error " + json.toString());
+                if (callback != null) {
+                    callback.onError(json.toString());
+                }else {
+                    Log.i("HttpPostFileTask", "done null callback");
+                }
+            }else if(o instanceof  Exception){
+                if (callback != null) {
+                    callback.onError(((Exception) o).getMessage());
+                } else {
+                    Log.i("HttpPostFileTask", "done null callback");
+                }
+            }else {
+                if (callback != null) {
+                    Log.i("HttpPostFileTask", "done callback");
+                    callback.onComplete(this.postDataFiles.toArray());
+                } else {
+                    Log.i("HttpPostFileTask", "done null callback");
+                }
             }
-        }else {
-            if (callback != null) {
-                Log.i("HttpPostFileTask", "done callback");
-                callback.onComplete(this.postDataFiles.toArray());
-            } else {
-                Log.i("HttpPostFileTask", "done null callback");
-            }
+        }catch(Exception e){
+            Log.e("HttpPostFileFormDataTask", "error on callback call: " + e.getMessage(), e);
         }
     }
 

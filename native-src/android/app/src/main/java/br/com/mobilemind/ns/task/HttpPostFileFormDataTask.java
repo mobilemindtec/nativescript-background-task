@@ -162,10 +162,6 @@ public class HttpPostFileFormDataTask extends AsyncTask {
                 }
                 
 
-                if(response.getStatusLine().getStatusCode() != RestStatus.OK){
-                    throw new RestException(response.getStatusLine().getStatusCode(), response.getStatusLine().getReasonPhrase());
-                }
-
                 Header headers[] = response.getAllHeaders();
 
                 for(Header header : headers)
@@ -173,11 +169,14 @@ public class HttpPostFileFormDataTask extends AsyncTask {
 
                 HttpEntity httpEntity = response.getEntity();
                 InputStream instream = null;
+                String result = null;
 
                 if (httpEntity != null) {
                     try {
                         instream = httpEntity.getContent();
-                        postData.result = convertStreamToString(instream);
+                        result = convertStreamToString(instream);
+                        postData.result = result;
+                        Log.i("HttpPostFileFormDataTask", "result = [" + result + "]");
                     } catch (Exception e) {
                         throw new RestException(e.getMessage(), e);
                     } finally {
@@ -188,7 +187,16 @@ public class HttpPostFileFormDataTask extends AsyncTask {
                             }
                         }
                     }                    
-                }                              
+                }else {
+                    Log.i("HttpPostFileFormDataTask", "httpEntity is null");
+                }                 
+
+                if(response.getStatusLine().getStatusCode() != RestStatus.OK){
+                    Log.i("HttpPostFileFormDataTask", "response code = [" + response.getStatusLine().getStatusCode() + "]");
+                    Log.i("HttpPostFileFormDataTask", "response reason = [" + response.getStatusLine().getReasonPhrase() + "]");
+                    throw new RestException(response.getStatusLine().getStatusCode(), response.getStatusLine().getReasonPhrase(), result);
+                }
+                             
 
                 Runtime.getRuntime().gc();
                 System.gc();
@@ -206,17 +214,34 @@ public class HttpPostFileFormDataTask extends AsyncTask {
     protected void onPostExecute(Object o) {
         super.onPostExecute(o);
 
-        if(o instanceof  Exception){
-            if (callback != null) {
-                callback.onError(((Exception) o).getMessage());
+        try{
+            if(o instanceof RestException){
+                JSONObject json = new JSONObject();
+                json.put("statusCode", ((RestException)o).getHttpSatatus());
+                json.put("content", ((RestException)o).getContent());
+                json.put("message", ((RestException)o).getMessage());
+                Log.i("HttpPostFileFormDataTask", "done with error " + json.toString());
+                if (callback != null) {
+                    callback.onError(json.toString());
+                }else {
+                    Log.i("HttpPostFileFormDataTask", "done null callback");
+                }
+            }else if(o instanceof  Exception){
+                if (callback != null) {
+                    callback.onError(((Exception) o).getMessage());
+                } else {
+                    Log.i("HttpPostFileFormDataTask", "done null callback");
+                }
+            }else {
+                if (callback != null) {
+                    Log.i("HttpPostFileFormDataTask", "done callback");
+                    callback.onComplete(this.postDataFiles.toArray());
+                } else {
+                    Log.i("HttpPostFileFormDataTask", "done null callback");
+                }
             }
-        }else {
-            if (callback != null) {
-                Log.i("HttpPostFileFormDataTask", "done callback");
-                callback.onComplete(this.postDataFiles.toArray());
-            } else {
-                Log.i("HttpPostFileFormDataTask", "done null callback");
-            }
+        }catch(Exception e){
+            Log.e("HttpPostFileFormDataTask", "error on callback call: " + e.getMessage(), e);
         }
     }
 
