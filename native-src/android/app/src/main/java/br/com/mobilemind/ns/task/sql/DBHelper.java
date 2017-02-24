@@ -22,15 +22,22 @@ public class DBHelper extends SQLiteOpenHelper {
 
     public Cursor getData(String query){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery(query, null);
-        return res;
+        Cursor cursor =  db.rawQuery(query, null);
+        return cursor;
     }
 
     public Long getDataId(String query, String[] args){
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor res =  db.rawQuery(query, args);
-        if (res.moveToNext())
-            return res.getLong(0);
+        Cursor cursor =  db.rawQuery(query, args);
+        
+        try{        
+
+            if (cursor.moveToNext())
+                return cursor.getLong(0);
+
+        }finally{
+            cursor.close();
+        }
 
         return null;
     }
