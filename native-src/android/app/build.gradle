@@ -23,7 +23,7 @@ android {
  
 dependencies {
 
-    compile('br.com.mobilemind.api:mobilemind-droid-util:1.4', {
+    compile('br.com.mobilemind.api:mobilemind-droid-util:1.5', {
         exclude group: 'com.google.android', module: 'android'
         exclude group: 'com.google.android', module: 'support-v4'
         exclude group: 'br.com.mobilemind.api', module: 'mobilemind-utils'
