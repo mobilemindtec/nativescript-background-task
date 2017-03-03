@@ -3,16 +3,14 @@ package br.com.mobilemind.ns.task;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
-import org.apache.http.HttpResponse;
+import java.io.Serializable;
 
-public class HttpPostData {
+public class HttpPostData implements Serializable{
     public String identifier;
     public String fileSrc;
     public String jsonKey;
     public String result;
     protected Map<String, String> json;
-
-    public HttpResponse response;
     protected Map<String, String> responseHeaders;
 
 
@@ -40,4 +38,5 @@ public class HttpPostData {
     public Map<String, String> getHeaders() {
         return this.responseHeaders;
     }
+
 }

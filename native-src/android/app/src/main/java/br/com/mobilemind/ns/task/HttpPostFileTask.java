@@ -165,7 +165,6 @@ public class HttpPostFileTask extends AsyncTask {
                 }
             }else {
                 if (callback != null) {
-                    Log.i("HttpPostFileTask", "done callback");
                     callback.onComplete(this.postDataFiles.toArray());
                 } else {
                     Log.i("HttpPostFileTask", "done null callback");
