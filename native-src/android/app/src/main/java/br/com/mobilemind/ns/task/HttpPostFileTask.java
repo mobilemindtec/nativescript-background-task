@@ -123,6 +123,8 @@ public class HttpPostFileTask extends AsyncTask {
                     Thread.sleep(1000);
                 }
 
+                Log.i("HttpPostFileTask", "FILE RESULT=" + postData.result);
+
                 Map<String, String> resHeaders = httpService.getResponseHeaders();
 
                 for(String name : resHeaders.keySet())
