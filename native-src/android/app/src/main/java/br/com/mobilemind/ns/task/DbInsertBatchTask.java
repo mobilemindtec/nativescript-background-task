@@ -78,16 +78,19 @@ public class DbInsertBatchTask extends AsyncTask {
 
             for (Query q : sqls) {
                 if (q.query != null) {
+                    Log.i("DbInsertBatchTask", "## execute insert [" + q.query + "]");
                     helper.executeQuery(q.query, q.params, db);
                 } else {
                     Long id = helper.getDataId("select id from " + q.tableName + " where " + q.updateKey + " = ?", new String[]{q.updateKeyValue});
                     if(id == null){
+                        Log.i("DbInsertBatchTask", "## execute insert tableName="+q.tableName+", updateKeyValue = " + q.updateKeyValue);
                         helper.executeQuery(q.insertQuery, q.params, db);
                     } else {
+                        Log.i("DbInsertBatchTask", "## execute update tableName="+q.tableName+", updateKeyValue = " + q.updateKeyValue);
                         List args = new LinkedList(Arrays.asList(q.params));
-                        args.add(q.updateKeyValue); 
+                        args.add(q.updateKeyValue);
                         q.params = args.toArray();
-                        helper.executeQuery(q.updateQuery, q.params, db);
+                        helper.executeQuery(q.updateQuery + " where " + q.updateKey + " = ?", q.params, db);
                     }
                 }
             }

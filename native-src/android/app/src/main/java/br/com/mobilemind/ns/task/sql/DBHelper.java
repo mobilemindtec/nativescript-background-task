@@ -29,10 +29,10 @@ public class DBHelper extends SQLiteOpenHelper {
     public Long getDataId(String query, String[] args){
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor =  db.rawQuery(query, args);
-        
-        try{        
 
-            if (cursor.moveToNext())
+        try{
+
+            if (cursor.moveToFirst())
                 return cursor.getLong(0);
 
         }finally{
