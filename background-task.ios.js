@@ -118,11 +118,10 @@ exports.splitFiles = function(args){
       splitFile.fileSrc = item.fileSrc
       splitFile.filePartPath = item.filePartPath
       splitFile.filePartMaxSize = item.filePartMaxSize || splitFile.filePartMaxSize
-      splitFile.fileParthName = item.fileParthName
-      splitFile.fileParteSufix = item.fileParteSufix || splitFile.fileParteSufix
+      splitFile.filePartName = item.filePartName
+      splitFile.filePartSufix = item.filePartSufix || splitFile.filePartSufix
 
       task.addSplitFile(splitFile)
-
     }
 
     task.runTask()

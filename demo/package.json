@@ -12,10 +12,8 @@
   "dependencies": {
     "nativescript-background-task": "file:../../nativescript-background-task",
     "nativescript-db-orm": "git@github.com:mobilemindtec/nativescript-db-orm.git",
-    "nativescript-dialog": "file:../../nativescript-dialog",
     "nativescript-sqlite": "^1.1.2",
     "nativescript-theme-core": "~1.0.2",
-    "nativescript-view-util": "git@github.com:mobilemindtec/nativescript-view-util.git",
     "tns-core-modules": "2.5.1"
   },
   "devDependencies": {

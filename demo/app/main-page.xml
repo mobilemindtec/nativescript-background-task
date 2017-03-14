@@ -1,14 +1,24 @@
 <Page xmlns="http://schemas.nativescript.org/tns.xsd" loaded="loaded">
   <StackLayout>
-    
+
     <Label text="Background tasks" class="title"/>
-    
+
+    <ActivityIndicator busy="{{ loading }}" />
+
     <Button text="Get web large file task" tap="onGetWebFile" />
-    
+
     <Button text="Unzip task" tap="onUnzip" />
 
     <Button text="Copy files task" tap="onCopyFiles" />
-    
+
+    <Button text="Save Large File" tap="onSaveLargeFile" />
+
+    <Button text="Save Post File" tap="onPostFile" />
+
+    <Button text="DB Batch" tap="onDbBatch" />
+
+    <Button text="Split file" tap="onSplitFile" />
+
     <Label text="{{ message }}" class="message" textWrap="true"/>
   </StackLayout>
 </Page>
