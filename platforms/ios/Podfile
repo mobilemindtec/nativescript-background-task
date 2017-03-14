@@ -1,5 +1,2 @@
-source 'https://github.com/CocoaPods/Specs.git'
 
-platform :ios, '8.0'
-
-pod 'NativeScriptBackgroundTask', :git => "git@github.com:mobilemindtec/nativescript-background-task-ios-source.git" 
+pod 'NSBackgroundTask', :git => "git@github.com:mobilemindtec/nativescript-background-task-ios-source.git"

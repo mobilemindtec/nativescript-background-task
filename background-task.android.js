@@ -2,7 +2,7 @@ var application = require('application')
 
 /*
   args = {
-    
+
     url:
     toFile: - file path to save
 
@@ -17,10 +17,10 @@ exports.getFile = function(args){
 }
 
 /*
-  
+
   args = {
     fromFile:
-    toFile: 
+    toFile:
   }
 
 */
@@ -32,10 +32,10 @@ exports.unzip = function(args){
 }
 
 /*
-  
+
   args = {
-    fromFile: 
-    toFile: 
+    fromFile:
+    toFile:
   }
 
 */
@@ -49,11 +49,11 @@ exports.copyFiles = function(args){
 /*
   args = {
     files: [
-      { 
-        bitmap: 
+      {
+        image: // bitmap or uiimage
         fileDst:
-        fileSrc: 
-        quality: 
+        fileSrc:
+        quality:
       }
     ]
   }
@@ -62,12 +62,14 @@ exports.copyFiles = function(args){
 exports.saveLargeFiles = function(args){
 
   var callback = createCallback(args)
-  
+
   try{
 
     if(!args.files || args.files.length == 0){
-      if(args.doneCallback)
-        args.doneCallback()      
+      if(args.doneCallback){
+        args.doneCallback()
+        return
+      }
     }
 
     var largeFiles = []
@@ -76,16 +78,16 @@ exports.saveLargeFiles = function(args){
 
       var item = args.files[i]
       var large = new br.com.mobilemind.ns.task.LargeFilePersisterTask.LargeFile()
-      large.bitmap = item.bitmap
+      large.bitmap = item.image
       large.fileDst = item.fileDst
       large.fileSrc = item.fileSrc
       large.quality = item.quality
 
       largeFiles.push(large)
 
-    }  
-    
-    br.com.mobilemind.ns.task.LargeFilePersisterTask.doIt(callback, largeFiles);    
+    }
+
+    br.com.mobilemind.ns.task.LargeFilePersisterTask.doIt(callback, largeFiles);
   }catch(error){
     console.log("BackgroundTask.saveLargeFiles error=" + error)
     if(args.errorCallback)
@@ -97,10 +99,10 @@ exports.saveLargeFiles = function(args){
 /*
   args = {
     files: [
-      { 
-        fileSrc: 
+      {
+        fileSrc:
         filePartPath:
-        fileParthName: 
+        fileParthName:
         fileParteSufix: default is "part"
         filePartMaxSize: default is 5 (5MB)
       }
@@ -112,12 +114,14 @@ exports.saveLargeFiles = function(args){
 exports.splitFiles = function(args){
 
   var callback = createCallback(args)
-  
+
   try{
 
     if(!args.files || args.files.length == 0){
-      if(args.doneCallback)
-        args.doneCallback()      
+      if(args.doneCallback){
+        args.doneCallback()
+        return
+      }
     }
 
     var splitFiles = []
@@ -135,10 +139,10 @@ exports.splitFiles = function(args){
 
       splitFiles.push(splitFile)
 
-    }  
-    
-    br.com.mobilemind.ns.task.SplitFilesTask.doIt(callback, splitFiles);    
-    
+    }
+
+    br.com.mobilemind.ns.task.SplitFilesTask.doIt(callback, splitFiles);
+
   }catch(error){
     console.log("BackgroundTask.splitFiles error=" + error)
     if(args.errorCallback)
@@ -148,13 +152,13 @@ exports.splitFiles = function(args){
 }
 
 /*
-  
-  args = {        
-    url: 
+
+  args = {
+    url:
     items: [
       {
         jsonKey:
-        fileSrc: 
+        fileSrc:
         data: - json data
       }
     ]
@@ -169,11 +173,11 @@ exports.postFiles = function(args){
 
   var callback = createCallback(args)
 
-  try{    
-    
+  try{
+
     var httpPostFileTask
 
-    if(args.formData){      
+    if(args.formData){
       httpPostFileTask = new br.com.mobilemind.ns.task.HttpPostFileFormDataTask(args.url, callback)
     } else {
       httpPostFileTask = new br.com.mobilemind.ns.task.HttpPostFileTask(args.url, callback)
@@ -184,16 +188,16 @@ exports.postFiles = function(args){
       var fileSrc = jsonItem.fileSrc
       var jsonKey = jsonItem.jsonKey
       var jsonData = jsonItem.data
-      
+
       var httpPostData = new br.com.mobilemind.ns.task.HttpPostData(fileSrc, jsonKey)
       httpPostData.identifier = jsonItem.identifier
-      
+
       for(var key in jsonData){
         httpPostData.addJsonValue(key, jsonData[key])
       }
 
       httpPostFileTask.addData(httpPostData)
-      
+
     }
 
     if(args.gzip == false)
@@ -240,16 +244,16 @@ exports.postFiles = function(args){
       {
         insertQuery:
         updateQuery:
-        tableName: 
+        tableName:
         updateKey:  // where column name
         updateKeyValue: // where column value
-        params: 
+        params:
       }
     ]
-  }  
+  }
 
 */
-exports.dbBatchInsert = function(args){
+exports.dbBatch = function(args){
   var callback = createCallback(args)
 
   try{
@@ -261,7 +265,7 @@ exports.dbBatchInsert = function(args){
     for(var i in args.items){
       var item = args.items[i]
       if(item.query)
-        dbInsertBatchTask.addQuery(item.query, item.args)    
+        dbInsertBatchTask.addQuery(item.query, item.args)
       else
         dbInsertBatchTask.addInsertOrUpdateQuery(item.insertQuery, item.updateQuery, item.tableName, item.updateKey + "", item.updateKeyValue, item.args)
     }
@@ -272,7 +276,7 @@ exports.dbBatchInsert = function(args){
     console.log("BackgroundTask.dbBatchInsert error=" + error)
 
     if(args.errorCallback)
-      args.errorCallback(error)    
+      args.errorCallback(error)
   }
 
 }
@@ -288,9 +292,8 @@ function createCallback(args){
       if(args.errorCallback)
         args.errorCallback(e)
     }
-  })  
+  })
 
   return callback
 
 }
-
