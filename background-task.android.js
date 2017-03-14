@@ -78,7 +78,7 @@ exports.saveLargeFiles = function(args){
 
       var item = args.files[i]
       var large = new br.com.mobilemind.ns.task.LargeFilePersisterTask.LargeFile()
-      large.bitmap = item.image
+      large.bitmap = item.image.android || item.image
       large.fileDst = item.fileDst
       large.fileSrc = item.fileSrc
       large.quality = item.quality

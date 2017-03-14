@@ -1,4 +1,4 @@
-fs = require("file-system")
+var fs = require("file-system")
 
 exports.getFile = function(args){
 
@@ -62,11 +62,11 @@ exports.saveLargeFiles = function(args){
     for(var i in args.files) {
 
       var item = args.files[i]
-      var large = NSLargeFile.new()
-      large.image = item.image
-      large.fileDst = item.fileDst
-      large.fileSrc = item.fileSrc
-      large.quality = item.quality
+      var largeFile = NSLargeFile.new()
+      largeFile.image = item.image.ios || item.image
+      largeFile.fileDst = item.fileDst
+      largeFile.fileSrc = item.fileSrc
+      largeFile.quality = item.quality || 0
 
       task.addLargeFile(largeFile)
     }
@@ -175,25 +175,25 @@ exports.postFiles = function(args){
       var jsonKey = jsonItem.jsonKey
       var jsonData = jsonItem.data
 
-      var httpPostData = NSHttpPostData.alloc().initWithFileSrcJsonKey(fileSrc, jsonKey)
-      httpPostData.identifier = jsonItem.identifier
+      var httpPostFile = NSHttpPostFile.alloc().initWithFileSrcJsonKey(fileSrc, jsonKey)
+      httpPostFile.identifier = jsonItem.identifier
 
       for(var key in jsonData){
-        httpPostData.addJsonKeyValue(key, jsonData[key])
+        httpPostFile.addJsonKeyValue(key, jsonData[key])
       }
 
-      httpPostFileTask.addPostFile(httpPostData)
+      task.addPostFile(httpPostFile)
 
     }
 
     if(args.gzip == false)
-      httpPostFileTask.setUseGzip(false)
+      task.setUseGzip(false)
 
     if(args.headers){
       for(var i in args.headers){
         var header = args.headers[i]
         for(var key in header){
-          httpPostFileTask.addHeaderWithNameAndValue(key, header[key])
+          task.addHeaderWithNameAndValue(key, header[key])
         }
       }
     }
@@ -244,12 +244,12 @@ exports.postFiles = function(args){
 exports.dbBatch = function(args){
   var CompleteCallback = createCallback(args)
 
-	var dbPath = fs.path.join(fs.knowFolders.documents().path, args.dbName)
+	var dbPath = fs.path.join(fs.knownFolders.documents().path, args.dbName)
 
   try{
 
     var task = NSDbBatchTask.alloc().initWithDbPath(dbPath)
-		task.delete = CompleteCallback.new()
+		task.delegate = CompleteCallback.new()
 
     for(var i in args.items){
       var item = args.items[i]
@@ -267,10 +267,12 @@ exports.dbBatch = function(args){
 				query.updateKeyValue = item.updateKeyValue + ""
 				query.params = item.args
 			}
-        task.addQuery(query)
+
+			task.addQuery(query)
+
     }
 
-    tash.runTask()
+    task.runTask()
 
   }catch(error){
     console.log("BackgroundTask.dbBatchInsert error=" + error)

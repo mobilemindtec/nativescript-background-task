@@ -3,15 +3,60 @@ var observableModule = require("data/observable");
 var fs = require("file-system");
 var BackgroundTask = require("nativescript-background-task")
 var dialogs = require("ui/dialogs");
+var imageSource = require("image-source")
+var orm = require("nativescript-db-orm");
+var Model = orm.Model
 
 var viewModel = new observableModule.Observable({
   'message': '',
   'loading': false
 })
 
+var Person = (function(_super){
+
+  __extends(Person, _super);
+
+  function Person(params){
+    _super.apply(this, params);
+
+    params = params || {}
+
+    this.clazz = Person
+    this.tableName = "person"
+    this.columns = [
+      { name: 'id', key: true },
+      { name: 'name', type: 'string' }
+    ]
+
+    this.attrs = {}
+
+    for(i in this.columns){
+      this.attrs[this.columns[i].name] = params[this.columns[i].name]
+    }
+
+    Model.prototype._init.call(this, this, this.attrs)
+  }
+
+  return Person
+
+})(Model)
+
 exports.loaded = function(args) {
     var page = args.object;
     page.bindingContext = viewModel;
+
+    var DbChecker = orm.DbChecker
+    var dbChecker = new DbChecker()
+
+    //dbChecker.onDebug(true)
+
+    dbChecker.createOrUpdate(true, "demo.db", [
+      new Person()
+    ], function(){
+      console.log("orm init successful")
+    }, function (error) {
+      console.log("error orm init " + error)
+    })
 }
 
 exports.onUnzip = function(){
@@ -113,14 +158,100 @@ exports.onCopyFiles = function(){
 
 
 exports.onSaveLargeFile = function(){
+  var current = fs.knownFolders.currentApp()
+  var videoPath = fs.path.join(current.path, 'res/big_buck_bunny.mp4')
+  var imagePath = fs.path.join(current.path, 'res/mobilemind.png')
+  var temp = fs.knownFolders.temp().path;
 
+  viewModel.set('loading', true)
+
+  var img = imageSource.fromFile(imagePath);
+
+  BackgroundTask.saveLargeFiles({
+    files: [{
+      fileSrc: videoPath,
+      fileDst: fs.path.join(temp, "big_buck_bunny.mp4")
+    },{
+      image: img,
+      fileDst: fs.path.join(temp, "image.png")
+    }],
+    doneCallback: function(result){
+      viewModel.set('loading', false)
+      showAlert('large file saved')
+    },
+    errorCallback: function(error){
+      viewModel.set('loading', false)
+      showAlert('Error on save large file: ' + error)
+    }
+  })
 }
 
 exports.onPostFile = function(){
 
+  var current = fs.knownFolders.currentApp()
+  var videoPath = fs.path.join(current.path, 'res/big_buck_bunny.mp4')
+
+  viewModel.set('loading', true)
+
+  BackgroundTask.postFiles({
+    url: 'http://10.0.0.106:3000/',
+    formData: false,
+    gzip: true,
+    items: [{
+      fileSrc: videoPath,
+      jsonKey: 'video',
+      identifier: '10',
+      data: {
+        name: 'jonh',
+        age: '33'
+      }
+    }],
+    headers: [
+      { 'X-Auth-Toke': 'token' },
+      {'Content-Type': 'application/json'}
+    ],
+    doneCallback: function(results) {
+      viewModel.set('loading', false)
+      showAlert('post result: ' + results[0].result)
+    },
+    errorCallback: function(error) {
+      viewModel.set('loading', false)
+      showAlert('Error post file file: ' + error)
+    }
+  })
 }
 
 exports.onDbBatch = function () {
+
+  var items = []
+
+  for(var i = 0; i < 1000; i++){
+      items.push({
+        query: "insert into person (name) values (?)",
+        args: ["Person " + i]
+      })
+  }
+
+  viewModel.set('loading', true)
+
+  BackgroundTask.dbBatch({
+    dbName: "demo.db",
+    items: items,
+    doneCallback: function(){
+
+      viewModel.set('loading', false)
+      var model = new Person()
+
+      model.count(function(err, result){
+        showAlert('data count after batch insert: ' + result)
+      })
+
+    },
+    errorCallback: function (error) {
+      viewModel.set('loading', false)
+      showAlert('Error db batch: ' + error)
+    }
+  })
 
 }
 
