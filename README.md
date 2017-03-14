@@ -88,10 +88,10 @@ BackgroundTask.copyFiles({
 	},
 })
 
-// save or copy many files or bitmap image.. 
+// save or copy many files or bitmap or uiimage image.. 
 var files = []
 files.push({
-	bitmap: bitmap, // to save bitmap
+	image: image, // to save bitmap or uiimage
 	fileDst: fileDst, // destination file path
 	fileSrc: doc.fileSrc, // to pdf or another doc.. copy to destination
 	quality: 30 // quality if is bitmap
@@ -159,7 +159,7 @@ items.push({
 	args: ['john']
 })
 
-BackgroundTask.dbBatchInsert({
+BackgroundTask.dbBatch({
 	dbName: dbName,
 	items: items,
 	doneCallback: function(){
