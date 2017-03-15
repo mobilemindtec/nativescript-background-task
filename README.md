@@ -12,6 +12,8 @@ Run background task
 * split large file
 * run sql batch (insert, update, delete)
 
+** IOS Pod code at http://github.com/mobilemindtec/nativescript-background-task-ios-source
+
 ## Configs
 ### Android
 Add at app.gradle
