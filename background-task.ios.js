@@ -268,6 +268,7 @@ exports.dbBatch = function(args){
 				query.tableName = item.tableName
 				query.updateKey = item.updateKey + ""
 				query.updateKeyValue = item.updateKeyValue + ""
+				query.updateKeyDataType = item.updateKeyDataType || "text"
 				query.params = item.args
 			}
 
