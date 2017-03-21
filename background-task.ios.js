@@ -251,6 +251,9 @@ exports.dbBatch = function(args){
     var task = NSDbBatchTask.alloc().initWithDbPath(dbPath)
 		task.delegate = CompleteCallback.new()
 
+		if(args.debug)
+			task.setDebug(true)
+
     for(var i in args.items){
       var item = args.items[i]
 

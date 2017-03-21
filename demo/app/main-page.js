@@ -240,6 +240,7 @@ exports.onDbBatch = function () {
     doneCallback: function(){
 
       viewModel.set('loading', false)
+
       var model = new Person()
 
       model.count(function(err, result){
