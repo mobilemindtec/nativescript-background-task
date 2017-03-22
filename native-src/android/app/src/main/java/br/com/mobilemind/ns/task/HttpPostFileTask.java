@@ -26,7 +26,7 @@ public class HttpPostFileTask extends AsyncTask {
     private ArrayList<HttpPostData> postDataFiles;
     private Map<String, String> httpHeaders;
     private String url;
-    private boolean useGzip = true;
+    private boolean useGzip;
 
     public HttpPostFileTask(String url, CompleteCallback callback) {
         this.httpHeaders = new HashMap<String, String>();
