@@ -1,32 +1,60 @@
 var fs = require("file-system")
 
+var CompleteCallback = (function(_super){
+	__extends(CompleteCallback, _super);
+	function CompleteCallback(){
+		_super.apply(this, arguments);
+	}
+
+	CompleteCallback.prototype.onComplete = function(result){
+			if(this.args.doneCallback)
+				this.args.doneCallback(result)
+	}
+
+	CompleteCallback.prototype.onError = function(message){
+			if(this.args.errorCallback)
+				this.args.errorCallback(message)
+	}
+
+	CompleteCallback.prototype.setCallback = function(args){
+		this.args = args
+	}
+
+	CompleteCallback.ObjCProtocols = [NSBackgroundTaskCompleteCallback]
+
+	return CompleteCallback
+
+}(NSObject))
+
+var completeCallback  = CompleteCallback.new()
+
 exports.getFile = function(args){
 
-	var CompleteCallback = createCallback(args)
+	completeCallback.setCallback(args)
 
 	var toFile = args.toFile
   var url = args.url
   var identifier = args.identifier + ""
 	var task = NSBackgroundTaskHttpRequestToFile.alloc().initWithUrlToFileIdentifier(url, toFile, identifier)
-	task.delegate = CompleteCallback.new()
+	task.delegate = completeCallback
 	task.runTask();
 }
 
 exports.unzip = function(args){
 
-	var CompleteCallback = createCallback(args)
+	completeCallback.setCallback(args)
 
 	var task = NSBackgroundTaskUnzipTask.alloc().initWithFromFileToFile(args.fromFile, args.toFile)
-	task.delegate = CompleteCallback.new()
+	task.delegate = completeCallback
 	task.runTask();
 }
 
 exports.copyFiles = function(args){
 
-	var CompleteCallback = createCallback(args)
+	completeCallback.setCallback(args)
 
 	var task = NSBackgroundTaskCopyFiles.alloc().initWithFromFileToFile(args.fromFile, args.toFile)
-	task.delegate = CompleteCallback.new()
+	task.delegate = completeCallback
 	task.runTask();
 }
 
@@ -45,7 +73,7 @@ exports.copyFiles = function(args){
 */
 exports.saveLargeFiles = function(args){
 
-  var CompleteCallback = createCallback(args)
+  completeCallback.setCallback(args)
 
   try{
 
@@ -56,8 +84,9 @@ exports.saveLargeFiles = function(args){
 			}
     }
 
+
 		var task = NSLargeFilePersisterTask.new()
-		task.delegate = CompleteCallback.new()
+		task.delegate = completeCallback
 
     for(var i in args.files) {
 
@@ -98,7 +127,7 @@ exports.saveLargeFiles = function(args){
 
 exports.splitFiles = function(args){
 
-  var CompleteCallback = createCallback(args)
+  completeCallback.setCallback(args)
 
   try{
 
@@ -108,7 +137,7 @@ exports.splitFiles = function(args){
     }
 
 		var task = NSSplitFileTask.new()
-		task.delegate = CompleteCallback.new()
+		task.delegate = completeCallback
 
     for(var i in args.files) {
 
@@ -154,12 +183,12 @@ exports.splitFiles = function(args){
 
 exports.postFiles = function(args){
 
-  var CompleteCallback = createCallback(args)
+  completeCallback.setCallback(args)
 
   try{
 
     var task = NSHttpPostFileTask.alloc().initWithUrl(args.url)
-		task.delegate = CompleteCallback.new()
+		task.delegate = completeCallback
 
     if(args.formData){
       task.setUseFormData(true)
@@ -168,6 +197,10 @@ exports.postFiles = function(args){
 		if(args.gzip){
 			task.setUseGzip(true)
 		}
+
+    if(args.debug){
+      task.setDebug(true)
+    }
 
     for(var i in args.items){
       var jsonItem = args.items[i]
@@ -242,14 +275,15 @@ exports.postFiles = function(args){
 
 */
 exports.dbBatch = function(args){
-  var CompleteCallback = createCallback(args)
+
+	completeCallback.setCallback(args)
 
 	var dbPath = fs.path.join(fs.knownFolders.documents().path, args.dbName)
 
   try{
 
     var task = NSDbBatchTask.alloc().initWithDbPath(dbPath)
-		task.delegate = CompleteCallback.new()
+		task.delegate = completeCallback
 
 		if(args.debug)
 			task.setDebug(true)
@@ -285,31 +319,4 @@ exports.dbBatch = function(args){
       args.errorCallback(error)
   }
 
-}
-
-function createCallback(args){
-
-	var CompleteCallback = (function(_super){
-		__extends(CompleteCallback, _super);
-		function CompleteCallback(){
-			_super.apply(this, arguments);
-		}
-
-		CompleteCallback.prototype.onComplete = function(result){
-	  		if(args.doneCallback)
-	    		args.doneCallback(result)
-		}
-
-		CompleteCallback.prototype.onError = function(message){
-	  		if(args.errorCallback)
-	    		args.errorCallback(message)
-		}
-
-		CompleteCallback.ObjCProtocols = [NSBackgroundTaskCompleteCallback]
-
-		return CompleteCallback
-
-	}(NSObject))
-
-	return CompleteCallback
 }
