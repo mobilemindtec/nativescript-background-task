@@ -200,8 +200,8 @@ exports.postFiles = function(args){
 
     }
 
-    if(args.gzip == false)
-      httpPostFileTask.setUseGzip(false)
+    if(args.gzip)
+      httpPostFileTask.setUseGzip(args.gzip)
 
     if(args.headers){
       for(var i in args.headers){

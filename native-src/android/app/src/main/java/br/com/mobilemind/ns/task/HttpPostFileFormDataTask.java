@@ -47,7 +47,7 @@ public class HttpPostFileFormDataTask extends AsyncTask {
     private ArrayList<HttpPostData> postDataFiles;
     private Map<String, String> httpHeaders;
     private String url;
-    private boolean useGzip = true;
+    private boolean useGzip;
     private boolean resultToUtf8 = true;
 
     public HttpPostFileFormDataTask(String url, CompleteCallback callback) {
