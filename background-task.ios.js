@@ -56,6 +56,9 @@ exports.saveLargeFiles = function(args){
 			}
     }
 
+    if(args.debug)
+      task.setDebug(true)
+
 		var task = NSLargeFilePersisterTask.new()
 		task.delegate = CompleteCallback.new()
 
