@@ -54,7 +54,7 @@ var BackgroundTask = require("nativescript-background-task")
 // unzip file
 BackgroundTask.unzip({
 	fromFile: zipFile,
-	toFile: extractPath,	
+	toFile: extractPath,
 	doneCallback: function(){
 		// done			
 	},
@@ -90,7 +90,7 @@ BackgroundTask.copyFiles({
 	},
 })
 
-// save or copy many files or bitmap or uiimage image.. 
+// save or copy many files or bitmap or uiimage image..
 var files = []
 files.push({
 	image: image, // to save bitmap or uiimage
@@ -104,7 +104,7 @@ BackgroundTask.saveLargeFiles({
 		// done
 	},
 	errorCallback: function(error){
-		// error 
+		// error
 	}
 })
 
@@ -126,6 +126,12 @@ BackgroundTask.saveLargeFiles({
       { 'X-Auth-Token': token }                       
     ],
     doneCallback: function(dataPostList) {
+
+      // to ios use array converter
+      // var utils require("utils/utils")
+      // if(application.ios)
+      //  dataPostList = utils.ios.collections.nsArrayToJSArray(dataPostList)
+
     	for(var i in dataPostList){
 		var postData = dataPostList[i]
 		var data = JSON.parse(postData.result)
@@ -178,7 +184,7 @@ BackgroundTask.splitFiles({
 	files: [{
 		fileSrc: "/file/to/split.mp4"
 		filePartPath: "/path/to/save/part/"
-		fileParthName: "FileName" 
+		fileParthName: "FileName"
 		fileParteSufix: "part" // create FileName.part
 		filePartMaxSize: 3 // 3MB
 	}],

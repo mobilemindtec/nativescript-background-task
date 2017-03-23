@@ -56,7 +56,6 @@ exports.saveLargeFiles = function(args){
 			}
     }
 
-
 		var task = NSLargeFilePersisterTask.new()
 		task.delegate = CompleteCallback.new()
 
@@ -170,9 +169,8 @@ exports.postFiles = function(args){
 			task.setUseGzip(true)
 		}
 
-    if(args.debug){
-      task.setDebug(true)
-    }
+		if(args.debug)
+			task.setDebug(true)
 
     for(var i in args.items){
       var jsonItem = args.items[i]
