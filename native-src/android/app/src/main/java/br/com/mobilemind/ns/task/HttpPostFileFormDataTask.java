@@ -123,9 +123,15 @@ public class HttpPostFileFormDataTask extends AsyncTask {
 
                 bStream.close();
                 bStream = null;
+                
+                int fileLength = postData.json.get(postData.jsonKey).length();
+                int postLength = new JSONObject(postData.json).toString().length();
 
-                Log.i("HttpPostFileFormDataTask", "ULR=" + this.url);
-                Log.i("HttpPostFileFormDataTask", "FILE LEN=" + postData.json.get(postData.jsonKey).length());
+
+                Log.i("HttpPostFileTask", "ULR=" + this.url);
+                Log.i("HttpPostFileTask", "FILE LEN=" + fileLength);
+                Log.i("HttpPostFileTask", "POST LEN=" + postLength);
+
 
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost httppost = new HttpPost(this.url);
@@ -141,6 +147,8 @@ public class HttpPostFileFormDataTask extends AsyncTask {
 
                 for (String key : this.httpHeaders.keySet())
                     httppost.addHeader(key, this.httpHeaders.get(key));
+
+                httppost.addHeader("Content-Length", postLength + "");
 
 
                 HttpResponse response = null;

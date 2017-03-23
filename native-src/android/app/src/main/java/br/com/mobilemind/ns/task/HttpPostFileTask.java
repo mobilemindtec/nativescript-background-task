@@ -102,17 +102,25 @@ public class HttpPostFileTask extends AsyncTask {
                 bStream.close();
                 bStream = null;
 
+                String postDataStr = new JSONObject(postData.json).toString();
+                int fileLength = postData.json.get(postData.jsonKey).length();
+                int postLength = postDataStr.length();
+
+
                 Log.i("HttpPostFileTask", "ULR=" + this.url);
-                Log.i("HttpPostFileTask", "FILE LEN=" + postData.json.get(postData.jsonKey).length());
+                Log.i("HttpPostFileTask", "FILE LEN=" + fileLength);
+                Log.i("HttpPostFileTask", "POST LEN=" + postLength);
 
                 WsExecutor httpService = new WsExecutor(null, 30000);
 
                 httpService.setBaseUrl(this.url)
-                        .setEntity(new JSONObject(postData.json).toString());
+                        .setEntity(postDataStr);
 
                 
                 for (String key : this.httpHeaders.keySet())
                     httpService.addHeaderParam(key, this.httpHeaders.get(key));
+
+                httpService.addHeaderParam("Content-Length", postLength + "");
 
                 try {
                     postData.json.put(postData.jsonKey, null);
