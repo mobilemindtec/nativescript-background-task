@@ -8,8 +8,8 @@ import java.io.Serializable;
 public class HttpPostData implements Serializable{
     public String identifier;
     public String fileSrc;
-    public String jsonKey;
     public String result;
+    public String jsonKey;
     protected Map<String, String> json;
     protected Map<String, String> responseHeaders;
 

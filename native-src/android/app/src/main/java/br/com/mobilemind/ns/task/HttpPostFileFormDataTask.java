@@ -5,36 +5,33 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.BufferedReader;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.http.NameValuePair;
 import org.apache.http.Header;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.StatusLine;
-import br.com.mobilemind.api.rest.RestStatus;
-import br.com.mobilemind.api.droidutil.rest.RestException;
-import org.apache.http.HttpEntity;
 import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.conn.HttpHostConnectException;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import br.com.mobilemind.api.droidutil.rest.RestException;
+import br.com.mobilemind.api.rest.RestStatus;
 import br.com.mobilemind.api.security.key.Base64;
 
 /**
@@ -123,15 +120,9 @@ public class HttpPostFileFormDataTask extends AsyncTask {
 
                 bStream.close();
                 bStream = null;
-                
-                int fileLength = postData.json.get(postData.jsonKey).length();
-                int postLength = new JSONObject(postData.json).toString().length();
 
-
-                Log.i("HttpPostFileTask", "ULR=" + this.url);
-                Log.i("HttpPostFileTask", "FILE LEN=" + fileLength);
-                Log.i("HttpPostFileTask", "POST LEN=" + postLength);
-
+                Log.i("HttpPostFileFormDataTask", "ULR=" + this.url);
+                Log.i("HttpPostFileFormDataTask", "FILE LEN=" + postData.json.get(postData.jsonKey).length());
 
                 HttpClient httpclient = new DefaultHttpClient();
                 HttpPost httppost = new HttpPost(this.url);
@@ -142,13 +133,11 @@ public class HttpPostFileFormDataTask extends AsyncTask {
                 for(String key : keys){
                     nameValuePairs.add(new BasicNameValuePair(key, postData.json.get(key)));
                 }
-                
+
                 httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
 
                 for (String key : this.httpHeaders.keySet())
                     httppost.addHeader(key, this.httpHeaders.get(key));
-
-                httppost.addHeader("Content-Length", postLength + "");
 
 
                 HttpResponse response = null;
@@ -168,7 +157,7 @@ public class HttpPostFileFormDataTask extends AsyncTask {
                 } catch (Exception e) {
                     throw new RestException(e.getMessage(), e);
                 }
-                
+
 
                 Header headers[] = response.getAllHeaders();
 
@@ -194,17 +183,17 @@ public class HttpPostFileFormDataTask extends AsyncTask {
                             } catch (IOException io) {
                             }
                         }
-                    }                    
+                    }
                 }else {
                     Log.i("HttpPostFileFormDataTask", "httpEntity is null");
-                }                 
+                }
 
                 if(response.getStatusLine().getStatusCode() != RestStatus.OK){
                     Log.i("HttpPostFileFormDataTask", "response code = [" + response.getStatusLine().getStatusCode() + "]");
                     Log.i("HttpPostFileFormDataTask", "response reason = [" + response.getStatusLine().getReasonPhrase() + "]");
                     throw new RestException(response.getStatusLine().getStatusCode(), response.getStatusLine().getReasonPhrase(), result);
                 }
-                             
+
 
                 Runtime.getRuntime().gc();
                 System.gc();
@@ -242,7 +231,7 @@ public class HttpPostFileFormDataTask extends AsyncTask {
                 }
             }else {
                 if (callback != null) {
-                    Log.i("HttpPostFileFormDataTask", "done callback");                    
+                    Log.i("HttpPostFileFormDataTask", "done callback");
                     callback.onComplete(this.postDataFiles.toArray());
                 } else {
                     Log.i("HttpPostFileFormDataTask", "done null callback");
@@ -301,5 +290,5 @@ public class HttpPostFileFormDataTask extends AsyncTask {
         }
 
         return sb.toString();
-    }    
+    }
 }
