@@ -221,6 +221,57 @@ exports.postFiles = function(args){
   }
 }
 
+exports.postData = function(args){
+
+  var callback = createCallback(args)
+
+  try{
+
+    var task = new br.com.mobilemind.ns.task.HttpPostDataTask(args.url, callback)
+
+
+    for(var i in args.items){
+      var jsonItem = args.items[i]
+      var fileSrc = jsonItem.fileSrc
+      var jsonKey = jsonItem.jsonKey
+      var jsonData = jsonItem.data
+
+      var httpPostData = new br.com.mobilemind.ns.task.HttpPostData(fileSrc, jsonKey)
+      httpPostData.identifier = jsonItem.identifier
+
+      for(var key in jsonData){
+        httpPostData.addJsonValue(key, jsonData[key])
+      }
+
+      task.addData(httpPostData)
+
+    }
+
+    if(args.gzip)
+      task.setUseGzip(args.gzip)
+
+    if(args.splitMaxSize > 0)
+      task.setSplitMaxSize(args.splitMaxSize)
+
+
+    if(args.headers){
+      for(var i in args.headers){
+        var header = args.headers[i]
+        for(var key in header){
+          task.addHeader(key, header[key])
+        }
+      }
+    }
+
+    task.executeOnExecutor(android.os.AsyncTask.THREAD_POOL_EXECUTOR, null)
+    
+  }catch(error){
+    console.log("BackgroundTask.postFiles error=" + error)
+
+    if(args.errorCallback)
+      args.errorCallback(error)
+  }
+}
 
 /*
 
