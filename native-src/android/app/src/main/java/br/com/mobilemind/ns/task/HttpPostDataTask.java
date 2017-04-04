@@ -147,15 +147,17 @@ public class HttpPostDataTask extends AsyncTask {
                 final int kb = 1024 * 4;
                 int partSize = mb * splitSize;
                 int len = 0;
+                int partCount = 0;
 
-                int partCount = contentSize / partSize;
+                if(partSize > 0){
+                    partCount = contentSize / partSize;
 
-                if(contentSize % partSize > 0)
-                    partCount++;
+                    if(contentSize % partSize > 0)
+                        partCount++;
 
-                if(this.splitMaxSize == 0){
+                }else{
                     partSize = contentSize;
-                    partCount = 1;
+                    partCount = 1;                    
                 }
 
                 for(int i = 0; i < partCount; i++) {

@@ -13,7 +13,19 @@ exports.getFile = function(args){
   var toFile = args.toFile
   var url = args.url
   var identifier = args.identifier + ""
-  br.com.mobilemind.ns.task.HttpRequestToFileTask.doIt(callback, url, toFile, identifier);
+
+  var task = new br.com.mobilemind.ns.task.HttpRequestToFileTask(callback, url, toFile, identifier)
+
+  if(args.headers){
+    for(var i in args.headers){
+      var header = args.headers[i]
+      for(var key in header){
+        task.addHeader(key, header[key])
+      }
+    }
+  }
+
+  task.executeOnExecutor(android.os.AsyncTask.THREAD_POOL_EXECUTOR, null)
 }
 
 /*

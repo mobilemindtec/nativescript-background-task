@@ -4,7 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var getRawBody = require('raw-body')
 var index = require('./routes/index');
 var users = require('./routes/users');
 
@@ -22,6 +22,25 @@ app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(function (req, res, next) {
+	console.log('octet-stream')
+  if (req.headers['content-type'] === 'application/octet-stream') {
+    getRawBody(req, {
+      length: req.headers['content-length'],
+      encoding: this.charset
+    }, function (err, string) {
+      if (err)
+        return next(err)
+
+      req.body = string
+      next()
+    })
+  }
+  else {
+    next()
+  }
+
+})
 
 app.use('/', index);
 app.use('/users', users);
@@ -43,5 +62,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+
 
 module.exports = app;

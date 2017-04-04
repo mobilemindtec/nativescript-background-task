@@ -8,6 +8,8 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by ricardo on 3/22/16.
@@ -20,6 +22,8 @@ public class HttpRequestToFileTask extends AsyncTask {
     private String toFile;
     private String url;
     private String identifier;
+    private Map<String, String> httpHeaders;
+
 
     public HttpRequestToFileTask(CompleteCallback callback, String url, String toFile, String identifier)
     {
@@ -27,6 +31,11 @@ public class HttpRequestToFileTask extends AsyncTask {
         this.toFile = toFile;
         this.url = url;
         this.identifier = identifier;
+        this.httpHeaders = new HashMap<String, String>();
+    }
+
+    public void addHeader(String name, String value){
+        this.httpHeaders.put(name, value);
     }
 
     @Override
@@ -39,6 +48,9 @@ public class HttpRequestToFileTask extends AsyncTask {
             Log.i("HttpRequestToFileTask", "toFile=" + this.toFile);
 
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            for (String name : this.httpHeaders.keySet())
+                connection.setRequestProperty(name, this.httpHeaders.get(name));
 
             int statusCode = connection.getResponseCode();
 
@@ -94,9 +106,5 @@ public class HttpRequestToFileTask extends AsyncTask {
                 Log.i("HttpRequestToFileTask", "done null callback");
             }
         }
-    }
-
-    public static void doIt(CompleteCallback callback, String url, String toFile, String identifier){
-        new HttpRequestToFileTask(callback, url, toFile, identifier).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null);
     }
 }

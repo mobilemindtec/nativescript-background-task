@@ -1,13 +1,20 @@
 ﻿.title {
     font-size: 30;
     horizontal-align: center;
-    margin: 20;
+}
+
+
+StackLayout{
+    padding: 20;
 }
 
 button {
-    font-size: 18;
-    margin-top: 20;
+    font-size: 15;
+    margin-top: 7;
     horizontal-align: center;
+    width: 100%;    
+    background-color: #2980b9;
+    color: #FFFFFF;
 }
 
 .message {

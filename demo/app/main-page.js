@@ -12,6 +12,8 @@ var viewModel = new observableModule.Observable({
   'loading': false
 })
 
+var server = "http://192.168.0.4:3000/" // http://10.0.0.106:3000/
+
 var Person = (function(_super){
 
   __extends(Person, _super);
@@ -105,6 +107,9 @@ exports.onGetWebFile = function(){
 	BackgroundTask.getFile({
 		url: 'http://www.mobilemind.com.br/makeyourself/coollife/images-2.1.zip',
 		toFile: destinationFile,
+    headers: [
+      { 'CustonHeader': 'Custon Value' }
+    ],
 		doneCallback: function(){
 			// done
 			viewModel.set('loading', false)
@@ -194,7 +199,7 @@ exports.onPostFile = function(){
   viewModel.set('loading', true)
 
   BackgroundTask.postFiles({
-    url: 'http://10.0.0.106:3000/',
+    url: server,
     formData: false,
     gzip: true,
     items: [{
@@ -209,6 +214,35 @@ exports.onPostFile = function(){
     headers: [
       { 'X-Auth-Toke': 'token' },
       {'Content-Type': 'application/json'}
+    ],
+    doneCallback: function(results) {
+      viewModel.set('loading', false)
+      showAlert('post result: ' + results[0].result)
+    },
+    errorCallback: function(error) {
+      viewModel.set('loading', false)
+      showAlert('Error post file file: ' + error)
+    }
+  })
+}
+
+exports.onPostData = function(){
+
+  var current = fs.knownFolders.currentApp()
+  var videoPath = fs.path.join(current.path, 'res/big_buck_bunny.mp4')
+
+  viewModel.set('loading', true)
+
+  BackgroundTask.postData({
+    url: server + 'raw',
+    formData: false,
+    gzip: true,
+    items: [{
+      fileSrc: videoPath,      
+      identifier: '10',
+    }],
+    headers: [      
+      {"Content-Type": "application/octet-stream"}     
     ],
     doneCallback: function(results) {
       viewModel.set('loading', false)
