@@ -8,6 +8,16 @@ exports.getFile = function(args){
   var url = args.url
   var identifier = args.identifier + ""
 	var task = NSBackgroundTaskHttpRequestToFile.alloc().initWithUrlToFileIdentifier(url, toFile, identifier)
+
+	if(args.headers){
+		for(var i in args.headers){
+			var header = args.headers[i]
+			for(var key in header){
+				task.addHeaderWithNameAndValue(key, header[key])
+			}
+		}
+	}
+	
 	task.delegate = CompleteCallback.new()
 	task.runTask();
 }
