@@ -12,7 +12,8 @@ var viewModel = new observableModule.Observable({
   'loading': false
 })
 
-var server = "http://192.168.0.4:3000/" // http://10.0.0.106:3000/
+//var server = "http://192.168.0.4:3000/"
+var server = "http://10.0.0.103:3000/"
 
 var Person = (function(_super){
 
@@ -105,7 +106,7 @@ exports.onGetWebFile = function(){
   viewModel.set('loading', true)
 
 	BackgroundTask.getFile({
-		url: 'http://www.mobilemind.com.br/makeyourself/coollife/images-2.1.zip',
+		url: server,
 		toFile: destinationFile,
     headers: [
       { 'CustonHeader': 'Custon Value' }
@@ -238,11 +239,11 @@ exports.onPostData = function(){
     formData: false,
     gzip: true,
     items: [{
-      fileSrc: videoPath,      
+      fileSrc: videoPath,
       identifier: '10',
     }],
-    headers: [      
-      {"Content-Type": "application/octet-stream"}     
+    headers: [
+      {"Content-Type": "application/octet-stream"}
     ],
     doneCallback: function(results) {
       viewModel.set('loading', false)

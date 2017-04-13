@@ -68,6 +68,9 @@ BackgroundTask.getFile({
 	url: 'http://www.mobilemind.com.br/makeyourself/coollife/images-2.1.zip',
 	toFile: destinationFile,
 	identifier: 1,
+	headers: [
+		{ 'CustonHeader': 'Custon Value' }
+	],	
 	doneCallback: function(identifier){
 		// done
 	},
