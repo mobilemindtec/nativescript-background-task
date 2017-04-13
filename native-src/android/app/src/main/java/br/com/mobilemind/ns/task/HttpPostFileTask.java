@@ -120,7 +120,7 @@ public class HttpPostFileTask extends AsyncTask {
                 for (String key : this.httpHeaders.keySet())
                     httpService.addHeaderParam(key, this.httpHeaders.get(key));
 
-                httpService.addHeaderParam("Content-Length", postLength + "");
+                //httpService.addHeaderParam("Content-Length", postLength + "");
 
                 try {
                     postData.json.put(postData.jsonKey, null);
