@@ -6,6 +6,7 @@ var dialogs = require("ui/dialogs");
 var imageSource = require("image-source")
 var orm = require("nativescript-db-orm");
 var Model = orm.Model
+var application = require("application")
 
 var viewModel = new observableModule.Observable({
   'message': '',
@@ -13,7 +14,7 @@ var viewModel = new observableModule.Observable({
 })
 
 //var server = "http://192.168.0.4:3000/"
-var server = "http://10.0.0.103:3000/"
+var server = "http://10.0.0.102:3000/"
 
 var Person = (function(_super){
 
@@ -60,6 +61,7 @@ exports.loaded = function(args) {
     }, function (error) {
       console.log("error orm init " + error)
     })
+
 }
 
 exports.onUnzip = function(){
@@ -106,7 +108,7 @@ exports.onGetWebFile = function(){
   viewModel.set('loading', true)
 
 	BackgroundTask.getFile({
-		url: server,
+		url: 'http://mobilemind.com.br/makeyourself/coollife/images-2.1.zip',
 		toFile: destinationFile,
     headers: [
       { 'CustonHeader': 'Custon Value' }
@@ -128,6 +130,39 @@ exports.onGetWebFile = function(){
 			showAlert("Ops.. download error: " + message);
 		},
 	})
+}
+
+exports.onGetPartialWebFile = function() {
+  var temp = fs.knownFolders.temp().path;
+  var destinationFile = fs.path.join(temp, "large_file.pdf")
+
+  viewModel.set('loading', true)
+
+  BackgroundTask.getFile({
+    url: server + 'partial-download',
+    toFile: destinationFile,
+    partBytesSize: 0, // use default
+    checkPartialDownload: true,
+    headers: [
+      
+    ],
+    doneCallback: function(){
+      // done
+      viewModel.set('loading', false)
+
+      if(fs.File.exists(destinationFile)){
+        showAlert("download success in path " + destinationFile);
+      }else{
+        showAlert("ops.. file not downloaded");
+      }
+
+    },
+    errorCallback: function(obj){
+      // error
+      viewModel.set('loading', false)
+      showAlert("Ops.. download error: " + obj[1]);
+    },
+  })
 }
 
 exports.onCopyFiles = function(){
@@ -328,3 +363,6 @@ function showAlert(message) {
 
   dialogs.alert(options)
 }
+
+
+

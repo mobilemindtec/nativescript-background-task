@@ -10,6 +10,8 @@
 
       <Button text="Get web large file task" tap="onGetWebFile" />
 
+      <Button text="Get partial web large file task" tap="onGetPartialWebFile" />
+
       <Button text="Unzip task" tap="onUnzip" />
 
       <Button text="Copy files task" tap="onCopyFiles" />

@@ -13,5 +13,10 @@
     "morgan": "~1.7.0",
     "pug": "~2.0.0-beta10",
     "serve-favicon": "~2.3.2"
+  },
+  "devDependencies": {
+    "memorystream": "^0.3.1",
+    "slice-file": "^1.0.0",
+    "slice-stream": "^1.0.0"
   }
 }
