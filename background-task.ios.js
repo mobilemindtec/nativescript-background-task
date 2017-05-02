@@ -7,7 +7,14 @@ exports.getFile = function(args){
 	var toFile = args.toFile
   var url = args.url
   var identifier = args.identifier + ""
+  var partBytesSize = args.partBytesSize 
+  var checkPartialDownload = args.checkPartialDownload
+
+
 	var task = NSBackgroundTaskHttpRequestToFile.alloc().initWithUrlToFileIdentifier(url, toFile, identifier)
+
+  task.setCheckPartialDownload(checkPartialDownload == undefined ? false : checkPartialDownload)
+  task.setPartBytesSize( partBytesSize || 0)
 
 	if(args.headers){
 		for(var i in args.headers){
