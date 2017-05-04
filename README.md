@@ -70,7 +70,7 @@ BackgroundTask.unzip({
 
 ### Download to file
 
-if you set `checkPartialDownload: true` the plugin will test, using `HEAD` request, if server accepts (header Accept-Ranges: bytes). If server supports, the plugin make partial download of `partBytesSize` bytes (default is 2MB). Partial download enables resume download if some part of download already done. The server can supports `HEAD` request to work.
+if you set `checkPartialDownload: true` the plugin will test, using `HEAD` request to know if server accepts (header Accept-Ranges: bytes). If server supports, the plugin make partial download of `partBytesSize` bytes (default is 2MB). Partial download enable resume download if some part of download already done. The server can supports `HEAD` request to work.
 
 ```
 BackgroundTask.getFile({
