@@ -5,7 +5,7 @@ Run background task
 ## Features
 
 * unzip file
-* download big files
+* download big files, supports partial/resume download
 * move many files
 * save large file
 * post large file base64 gzip json or form data (base64 gzip)
@@ -51,7 +51,10 @@ dependencies{
 
 var BackgroundTask = require("nativescript-background-task")
 
-// unzip file
+```
+### Unzip file
+
+```
 BackgroundTask.unzip({
 	fromFile: zipFile,
 	toFile: extractPath,
@@ -63,11 +66,19 @@ BackgroundTask.unzip({
 	},
 })
 
-// get large file and save in destination path
+```
+
+### Download to file
+
+if you set `checkPartialDownload: true` the plugin will test, using HEAD request, if server accepts (header Accept-Ranges: bytes). If server supports, the plugin make partial download of `partBytesSize` bytes (default is 2MB).
+
+```
 BackgroundTask.getFile({
 	url: 'http://www.mobilemind.com.br/makeyourself/coollife/images-2.1.zip',
 	toFile: destinationFile,
 	identifier: 1,
+        partBytesSize: 0, // use default 2MB
+        checkPartialDownload: true,	
 	headers: [
 		{ 'CustonHeader': 'Custon Value' }
 	],	
@@ -80,8 +91,11 @@ BackgroundTask.getFile({
 		// error
 	},
 })
+```
 
-// copy files from origin path to destination path
+### Copy many files to destination directory
+
+```
 BackgroundTask.copyFiles({
 	fromFile: extractPath,
 	toFile: movePath,
@@ -92,11 +106,16 @@ BackgroundTask.copyFiles({
 		// error			
 	},
 })
+```
 
-// save or copy many files or bitmap or uiimage image..
+### Save a or copy a large file or Image to destination. 
+
+You can set Image or file source
+
+```
 var files = []
 files.push({
-	image: image, // to save bitmap or uiimage
+	image: image, // to save android Bitmap, ios UIImage or nativescript Image
 	fileDst: fileDst, // destination file path
 	fileSrc: doc.fileSrc, // to pdf or another doc.. copy to destination
 	quality: 30 // quality if is bitmap
@@ -111,8 +130,19 @@ BackgroundTask.saveLargeFiles({
 	}
 })
 
-// post file base64 gzip
+```
 
+### Post files 
+
+Post a file using json format or form data. 
+
+* JSON format - To post json files, you need provide a key that the content will be stored in json object. For example, if you set `jsonKey: 'photo'` the plugin make a json `{ photo: 'photo content' }` and add in `photo content` the file content using Base64 and, if you want GZip.
+
+* Form Data - To post Form Data, you need provide a key that the content will be stored in form data. For example, if you set `jsonKey: 'photo'` the plugin make a form data `dataform[jsonKey] = 'photo content'` and add in `photo content` the file content using Base64 and, if you want GZip.
+
+The file always will be store in `jsonKey` field, and not in post content. The server need supports this logic.
+
+```
   BackgroundTask.postFiles({
     url: apiUrl, // api url
     formData: false, // use form data to post. default is json
@@ -150,7 +180,13 @@ BackgroundTask.saveLargeFiles({
     	// error
     }
 })
+```
 
+### SQL Batch
+
+Execute sql back in background.
+
+```
 // sql batch
 var items = []
 
@@ -181,8 +217,11 @@ BackgroundTask.dbBatch({
 	}
 })
 
-// split large files
+```
 
+### Split large file and save parts
+
+```
 BackgroundTask.splitFiles({
 	files: [{
 		fileSrc: "/file/to/split.mp4"
