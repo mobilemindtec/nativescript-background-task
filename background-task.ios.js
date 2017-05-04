@@ -7,14 +7,16 @@ exports.getFile = function(args){
 	var toFile = args.toFile
   var url = args.url
   var identifier = args.identifier + ""
-  var partBytesSize = args.partBytesSize 
+  var partBytesSize = args.partBytesSize
   var checkPartialDownload = args.checkPartialDownload
+	var debug = args.debug
 
 
 	var task = NSBackgroundTaskHttpRequestToFile.alloc().initWithUrlToFileIdentifier(url, toFile, identifier)
 
   task.setCheckPartialDownload(checkPartialDownload == undefined ? false : checkPartialDownload)
-  task.setPartBytesSize( partBytesSize || 0)
+  task.setPartBytesSize(partBytesSize || 0)
+	task.setDebug(debug == undefined ? false : debug)
 
 	if(args.headers){
 		for(var i in args.headers){
@@ -24,7 +26,7 @@ exports.getFile = function(args){
 			}
 		}
 	}
-	
+
 	task.delegate = CompleteCallback.new()
 	task.runTask();
 }

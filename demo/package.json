@@ -5,10 +5,10 @@
   "repository": "<fill-your-repository-here>",
   "nativescript": {
     "id": "org.nativescript.demo",
-    "tns-ios": {
+    "tns-android": {
       "version": "2.5.0"
     },
-    "tns-android": {
+    "tns-ios": {
       "version": "2.5.0"
     }
   },
@@ -18,7 +18,7 @@
     "nativescript-db-orm": "git@github.com:mobilemindtec/nativescript-db-orm.git",
     "nativescript-sqlite": "^1.1.2",
     "nativescript-theme-core": "~1.0.2",
-    "tns-core-modules": "2.5.1"
+    "tns-core-modules": "^2.5.2"
   },
   "devDependencies": {
     "babel-traverse": "6.23.1",
