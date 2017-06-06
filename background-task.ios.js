@@ -82,7 +82,12 @@ exports.saveLargeFiles = function(args){
 
       var item = args.files[i]
       var largeFile = NSLargeFile.new()
-      largeFile.image = item.image.ios || item.image
+
+			if (item.image instanceof UIImage)
+      	largeFile.image = item.image
+			else
+				largeFile.image = item.image.ios
+
       largeFile.fileDst = item.fileDst
       largeFile.fileSrc = item.fileSrc
       largeFile.quality = item.quality || 0
