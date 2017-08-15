@@ -122,8 +122,8 @@ exports.saveLargeFiles = function(args){
       {
         fileSrc:
         filePartPath:
-        fileParthName:
-        fileParteSufix: default is "part"
+        filePartName:
+        filePartSufix: default is "part"
         filePartMaxSize: default is 5 (5MB)
       }
     ]
@@ -154,8 +154,8 @@ exports.splitFiles = function(args){
       splitFile.fileSrc = item.fileSrc
       splitFile.filePartPath = item.filePartPath
       splitFile.filePartMaxSize = item.filePartMaxSize || splitFile.filePartMaxSize
-      splitFile.fileParthName = item.fileParthName
-      splitFile.fileParteSufix = item.fileParteSufix || splitFile.fileParteSufix
+      splitFile.filePartName = item.filePartName
+      splitFile.filePartSufix = item.filePartSufix || splitFile.filePartSufix
 
       splitFiles.push(splitFile)
 
