@@ -1,7 +1,7 @@
 
 {
   "name": "nativescript-background-task",
-  "main" : "background-task.js",
+  "main" : "background-task",
   "version": "0.0.1",
   "nativescript": {
     "platforms": {
