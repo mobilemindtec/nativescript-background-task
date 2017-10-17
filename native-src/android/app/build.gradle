@@ -23,12 +23,12 @@ android {
  
 dependencies {
 
-    compile('br.com.mobilemind.api:mobilemind-droid-util:1.5', {
+    compile('br.com.mobilemind.api:mobilemind-droid-util:2.0', {
         exclude group: 'com.google.android', module: 'android'
         exclude group: 'com.google.android', module: 'support-v4'
-        exclude group: 'br.com.mobilemind.api', module: 'mobilemind-utils'
+      //  exclude group: 'br.com.mobilemind.api', module: 'mobilemind-utils'
     })
-    compile 'br.com.mobilemind.api:mobilemind-utils:1.3'
+    //compile 'br.com.mobilemind.api:mobilemind-utils:1.3'
     compile fileTree(dir: 'libs', include: ['*.jar'])    
 }
  
