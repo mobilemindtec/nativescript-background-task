@@ -2,6 +2,14 @@
 
 Run background task
 
+**Attention!!** this plugin not is registered on npm. To use you should add the repository directly on your package.json:
+
+```
+dependencies: {
+    "nativescript-background-task": "https://github.com/mobilemindtec/nativescript-background-task.git"
+}
+```
+
 ## Features
 
 * unzip file
