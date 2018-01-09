@@ -1,2 +1,2 @@
 
-pod 'NSBackgroundTask', :git => "git@github.com:mobilemindtec/nativescript-background-task-ios-source.git"
+pod 'NSBackgroundTask', :git => "https://github.com/mobilemindtec/nativescript-background-task-ios-source.git"

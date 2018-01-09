@@ -189,7 +189,7 @@ exports.onCopyFiles = function(){
 			// done
 			fs.Folder.fromPath(movePath).getEntities().then(function(entities){
 				showAlert("Moved " + entities.length + " files to " + movePath)
-			}).then(function(error){
+			}).catch(function(error){
 				showAlert('Error on list directory ' + movePath + ': ' + error)
 			})
 		},
