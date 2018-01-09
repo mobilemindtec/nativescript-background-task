@@ -5,12 +5,11 @@
   "version": "0.0.1",
   "nativescript": {
     "platforms": {
-      "ios": "3.0.0",
-    	"android": "3.0.0"
+      "ios": "3.4.0",
+    	"android": "3.4.0"
     }
   },
   "devDependencies": {
-    "tns-core-modules": "^3.0.0",
-    "tns-platform-declarations": "^3.0.1"
+    "tns-core-modules": "^3.4.0"    
   }  
 }

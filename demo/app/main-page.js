@@ -62,6 +62,10 @@ exports.loaded = function(args) {
       console.log("error orm init " + error)
     })
 
+    //console.log("---------------------------------")
+    //console.log(android.database.sqlite.SQLiteDatabase.openOrCreateDatabase("test.db", {}))
+    //console.log("---------------------------------")
+
 }
 
 exports.onUnzip = function(){

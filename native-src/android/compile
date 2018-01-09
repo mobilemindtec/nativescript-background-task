@@ -2,4 +2,4 @@
 
 ./gradlew exportJar
 
-cp app/release/MobileMindNSTaskPlugin.jar ../../platforms/android/libs
+cp app/release/MobileMindNSTaskPlugin.aar ../../platforms/android

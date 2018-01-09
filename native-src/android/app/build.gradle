@@ -1,6 +1,7 @@
 
 apply plugin: 'com.android.library'
  
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -34,16 +35,16 @@ dependencies {
  
 // task to delete the old jar
 task deleteOldJar(type: Delete) {
-    delete 'release/MobileMindNSTaskPlugin.jar'
+    delete 'release/MobileMindNSTaskPlugin.aar'
 }
  
 // task to export contents as jar
 task exportJar(type: Copy) {
-    from('build/intermediates/bundles/release/')
+    from('build/outputs/aar')
     into('release')
-    include('classes.jar')
+    include('app-release.aar')
     // name the plugin
-    rename('classes.jar','MobileMindNSTaskPlugin.jar')
+    rename('app-release.aar','MobileMindNSTaskPlugin.aar')
 }
  
 exportJar.dependsOn(deleteOldJar, build)
