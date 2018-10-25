@@ -11,14 +11,6 @@ allprojects {
     }
 }
 
-android { 
-    productFlavors {
-        "nativescript-background-task" {
-            dimension "nativescript-background-task"
-        }
-    }
-}
-
 dependencies {
   compile('br.com.mobilemind.api:mobilemind-droid-util:2.0', {
       exclude group: 'com.google.android', module: 'android'
