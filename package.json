@@ -1,15 +1,14 @@
-
 {
   "name": "nativescript-background-task",
-  "main" : "index.js",
+  "main": "index.js",
   "version": "0.0.1",
   "nativescript": {
     "platforms": {
       "ios": "3.4.0",
-    	"android": "3.4.0"
+      "android": "3.4.0"
     }
   },
   "devDependencies": {
-    "tns-core-modules": "^3.4.0"    
-  }  
+    "tns-core-modules": "^3.4.0"
+  }
 }

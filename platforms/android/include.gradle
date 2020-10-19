@@ -3,10 +3,7 @@ allprojects {
         jcenter()
         mavenCentral()
         maven {
-            url "http://nexus.mobilemind.com.br/repository/mobile-mind-m2"
-        }
-        maven {
-            url "http://nexus.mobilemind.com.br/repository/mobile-mind-droid-m2"
+            url "https://raw.githubusercontent.com/mobilemindtec/m2/master"
         }
     }
 }
