@@ -2,51 +2,51 @@ var fs = require("file-system")
 
 exports.getFile = function(args){
 
-	var CompleteCallback = createCallback(args)
+  var CompleteCallback = createCallback(args)
 
-	var toFile = args.toFile
+  var toFile = args.toFile
   var url = args.url
   var identifier = args.identifier + ""
   var partBytesSize = args.partBytesSize
   var checkPartialDownload = args.checkPartialDownload
-	var debug = args.debug
+  var debug = args.debug
 
 
-	var task = NSBackgroundTaskHttpRequestToFile.alloc().initWithUrlToFileIdentifier(url, toFile, identifier)
+  var task = NSBackgroundTaskHttpRequestToFile.alloc().initWithUrlToFileIdentifier(url, toFile, identifier)
 
   task.setCheckPartialDownload(checkPartialDownload == undefined ? false : checkPartialDownload)
   task.setPartBytesSize(partBytesSize || 0)
-	task.setDebug(debug == undefined ? false : debug)
+  task.setDebug(debug == undefined ? false : debug)
 
-	if(args.headers){
-		for(var i in args.headers){
-			var header = args.headers[i]
-			for(var key in header){
-				task.addHeaderWithNameAndValue(key, header[key])
-			}
-		}
-	}
+  if(args.headers){
+    for(var i in args.headers){
+      var header = args.headers[i]
+      for(var key in header){
+        task.addHeaderWithNameAndValue(key, header[key])
+      }
+    }
+  }
 
-	task.delegate = CompleteCallback.new()
-	task.runTask();
+  task.delegate = CompleteCallback.new()
+  task.runTask();
 }
 
 exports.unzip = function(args){
 
-	var CompleteCallback = createCallback(args)
+  var CompleteCallback = createCallback(args)
 
-	var task = NSBackgroundTaskUnzipTask.alloc().initWithFromFileToFile(args.fromFile, args.toFile)
-	task.delegate = CompleteCallback.new()
-	task.runTask();
+  var task = NSBackgroundTaskUnzipTask.alloc().initWithFromFileToFile(args.fromFile, args.toFile)
+  task.delegate = CompleteCallback.new()
+  task.runTask();
 }
 
 exports.copyFiles = function(args){
 
-	var CompleteCallback = createCallback(args)
+  var CompleteCallback = createCallback(args)
 
-	var task = NSBackgroundTaskCopyFiles.alloc().initWithFromFileToFile(args.fromFile, args.toFile)
-	task.delegate = CompleteCallback.new()
-	task.runTask();
+  var task = NSBackgroundTaskCopyFiles.alloc().initWithFromFileToFile(args.fromFile, args.toFile)
+  task.delegate = CompleteCallback.new()
+  task.runTask();
 }
 
 /*
@@ -70,23 +70,23 @@ exports.saveLargeFiles = function(args){
 
     if(!args.files || args.files.length == 0){
       if(args.doneCallback){
-				args.doneCallback()
-				return
-			}
+        args.doneCallback()
+        return
+      }
     }
 
-		var task = NSLargeFilePersisterTask.new()
-		task.delegate = CompleteCallback.new()
+    var task = NSLargeFilePersisterTask.new()
+    task.delegate = CompleteCallback.new()
 
     for(var i in args.files) {
 
       var item = args.files[i]
       var largeFile = NSLargeFile.new()
 
-			if (item.image instanceof UIImage)
-      	largeFile.image = item.image
-			else if(item.image && item.image.ios)
-				largeFile.image = item.image.ios
+      if (item.image instanceof UIImage)
+        largeFile.image = item.image
+      else if(item.image && item.image.ios)
+        largeFile.image = item.image.ios
 
       largeFile.fileDst = item.fileDst
       largeFile.fileSrc = item.fileSrc
@@ -95,7 +95,7 @@ exports.saveLargeFiles = function(args){
       task.addLargeFile(largeFile)
     }
 
-		task.runTask()
+    task.runTask()
 
   }catch(error){
     console.log("BackgroundTask.saveLargeFiles error=" + error)
@@ -131,14 +131,14 @@ exports.splitFiles = function(args){
         args.doneCallback()
     }
 
-		var task = NSSplitFileTask.new()
-		task.delegate = CompleteCallback.new()
+    var task = NSSplitFileTask.new()
+    task.delegate = CompleteCallback.new()
 
     for(var i in args.files) {
 
       var item = args.files[i]
 
-			var splitFile = NSSplitFile.new()
+      var splitFile = NSSplitFile.new()
       splitFile.fileSrc = item.fileSrc
       splitFile.filePartPath = item.filePartPath
       splitFile.filePartMaxSize = item.filePartMaxSize || splitFile.filePartMaxSize
@@ -183,18 +183,18 @@ exports.postFiles = function(args){
   try{
 
     var task = NSHttpPostFileTask.alloc().initWithUrl(args.url)
-		task.delegate = CompleteCallback.new()
+    task.delegate = CompleteCallback.new()
 
     if(args.formData){
       task.setUseFormData(true)
     }
 
-		if(args.gzip){
-			task.setUseGzip(true)
-		}
+    if(args.gzip){
+      task.setUseGzip(true)
+    }
 
-		if(args.debug)
-			task.setDebug(true)
+    if(args.debug)
+      task.setDebug(true)
 
     for(var i in args.items){
       var jsonItem = args.items[i]
@@ -271,35 +271,35 @@ exports.postFiles = function(args){
 exports.dbBatch = function(args){
   var CompleteCallback = createCallback(args)
 
-	var dbPath = fs.path.join(fs.knownFolders.documents().path, args.dbName)
+  var dbPath = fs.path.join(fs.knownFolders.documents().path, args.dbName)
 
   try{
 
     var task = NSDbBatchTask.alloc().initWithDbPath(dbPath)
-		task.delegate = CompleteCallback.new()
+    task.delegate = CompleteCallback.new()
 
-		if(args.debug)
-			task.setDebug(true)
+    if(args.debug)
+      task.setDebug(true)
 
     for(var i in args.items){
       var item = args.items[i]
 
-			var query = NSQuery.new()
+      var query = NSQuery.new()
 
       if(item.query){
-				query.query = item.query
-				query.params = item.args
-			} else {
-				query.insertQuery = item.insertQuery
-				query.updateQuery = item.updateQuery
-				query.tableName = item.tableName
-				query.updateKey = item.updateKey + ""
-				query.updateKeyValue = item.updateKeyValue + ""
-				query.updateKeyDataType = item.updateKeyDataType || "text"
-				query.params = item.args
-			}
+        query.query = item.query
+        query.params = item.args
+      } else {
+        query.insertQuery = item.insertQuery
+        query.updateQuery = item.updateQuery
+        query.tableName = item.tableName
+        query.updateKey = item.updateKey + ""
+        query.updateKeyValue = item.updateKeyValue + ""
+        query.updateKeyDataType = item.updateKeyDataType || "text"
+        query.params = item.args
+      }
 
-			task.addQuery(query)
+      task.addQuery(query)
 
     }
 
@@ -316,27 +316,41 @@ exports.dbBatch = function(args){
 
 function createCallback(args){
 
-	var CompleteCallback = (function(_super){
-		__extends(CompleteCallback, _super);
-		function CompleteCallback(){
-			_super.apply(this, arguments);
-		}
+  var CompleteCallback = (function(_super){
+    __extends(CompleteCallback, _super);
+    function CompleteCallback(){
+      _super.apply(this, arguments);
+    }
 
-		CompleteCallback.prototype.onComplete = function(result){
-	  		if(args.doneCallback)
-	    		args.doneCallback(result)
-		}
+    CompleteCallback.prototype.onComplete = function(result){
+        if(args.doneCallback)
+          invokeOnRunLoop(()=>{
+           args.doneCallback(result)
+          })
+    }
 
-		CompleteCallback.prototype.onError = function(message){
-	  		if(args.errorCallback)
-	    		args.errorCallback(message)
-		}
+    CompleteCallback.prototype.onError = function(message){
+        if(args.errorCallback)
+          invokeOnRunLoop(()=>{
+            args.errorCallback(message)
+          })
+    }
 
-		CompleteCallback.ObjCProtocols = [NSBackgroundTaskCompleteCallback]
+    CompleteCallback.ObjCProtocols = [NSBackgroundTaskCompleteCallback]
 
-		return CompleteCallback
+    return CompleteCallback
 
-	}(NSObject))
+  }(NSObject))
 
-	return CompleteCallback
+  return CompleteCallback
 }
+
+let invokeOnRunLoop = (function() {
+    var runloop = CFRunLoopGetMain();
+    return function(func) {
+        CFRunLoopPerformBlock(runloop, kCFRunLoopDefaultMode, func);
+        CFRunLoopWakeUp(runloop);
+    }
+}());
+
+exports.invokeOnRunLoop = invokeOnRunLoop
