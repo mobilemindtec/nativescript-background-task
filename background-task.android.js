@@ -1,4 +1,4 @@
-var application = require('application')
+import { Application } from "@nativescript/core"
 
 /*
   args = {
@@ -328,7 +328,7 @@ exports.dbBatch = function(args){
   var callback = createCallback(args)
 
   try{
-    var context = application.android.context
+    var context = Application.android.foregroundActivity || Application.android.startActivity
     var dbName = args.dbName
 
     var dbInsertBatchTask = new br.com.mobilemind.ns.task.DbInsertBatchTask(context, dbName, callback)

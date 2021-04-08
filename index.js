@@ -1,1 +1,2 @@
-require("utils/module-merge").merge(require("./background-task"), exports)
+
+export * from "./background-task"
