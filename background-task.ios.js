@@ -1,4 +1,4 @@
-import { * as fs } from "@nativescript/core/file-system"
+var fs = require("@nativescript/core/file-system")
 
 exports.getFile = function(args){
 
