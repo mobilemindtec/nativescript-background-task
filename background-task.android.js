@@ -354,14 +354,17 @@ exports.dbBatch = function(args){
 
 function createCallback(args){
 
+  var doneCallback = args.doneCallback
+  var errorCallback = args.errorCallback
+
   var callback = new br.com.mobilemind.ns.task.CompleteCallback({
     onComplete: function(result){
-      if(args.doneCallback)
-        args.doneCallback(result)
+      if(doneCallback)
+        doneCallback(result)
     },
     onError: function(e){
-      if(args.errorCallback)
-        args.errorCallback(e)
+      if(errorCallback)
+        errorCallback(e)
     }
   })
 
